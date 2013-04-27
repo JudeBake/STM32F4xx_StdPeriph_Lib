@@ -198,6 +198,16 @@ void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	GPIO_InitTypeDef gpioInitStruct;
 }
 
+void setGpio(HwFlowCtrl iHwFlowCtrl, LinkMode iMode, COMMPort iPort)
+{
+
+}
+
+void setNvic(COMMPort iPort, uint8_t iPrempPriority)
+{
+
+}
+
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength)
 {
 	switch (iWordLength)
