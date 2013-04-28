@@ -30,13 +30,23 @@ void initPort5(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRate);
 void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRate);
-void setGpio(HwFlowCtrl iHwFlowCtrl, LinkMode iMode, COMMPort iPort);
-void setNvic(COMMPort iPort, uint8_t iPrempPriority);
+uint16_t setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+uint16_t setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+uint16_t setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+void setAsNoHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+uint16_t setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+uint16_t setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
+uint16_t setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength);
 void setStopBits(USART_InitTypeDef &iUsartInitStruct, StopBits iStopBit);
 void setParity(USART_InitTypeDef &iUsartInitStruct, Parity iParity);
-void setHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct, HwFlowCtrl iHwFlowCtrl);
-void setLinkMode(USART_InitTypeDef &iUsartInitStruct, LinkMode iLinkMode);
+void setNvic(COMMPort iPort, uint8_t iPreampPriority, uint8_t iSubPriority);
 
 AsyncSerial::AsyncSerial()
 {
@@ -101,6 +111,11 @@ AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
 	}
 }
 
+void initUsartStruct(USART_InitTypeDef &iUsartInitStruct)
+{
+
+}
+
 void nvicInit(void)
 {
 	NVIC_InitTypeDef nvicInitStruct;
@@ -117,7 +132,6 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 {
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
-	NVIC_InitTypeDef nvicInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
 
 	//enable USART clock
@@ -126,11 +140,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 
 	//setting up the GPIOs
 	gpioInitStruct.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_9;
-	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
-	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
-	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOA, &gpioInitStruct);
+
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);
 
@@ -139,8 +149,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	setWordLength(usartInitStruct, iDataLength);
 	setStopBits(usartInitStruct, iStopBit);
 	setParity(usartInitStruct, iParity);
-	usartInitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-	usartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
 	usartClockInitStruct.USART_Clock = USART_Clock_Disable;
 	usartClockInitStruct.USART_CPOL = USART_CPOL_Low;
 	usartClockInitStruct.USART_CPHA = USART_CPHA_2Edge;
@@ -159,7 +168,6 @@ void initPort2(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 {
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
-	NVIC_InitTypeDef nvicInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
 }
 
@@ -168,7 +176,6 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 {
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
-	NVIC_InitTypeDef nvicInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
 }
 
@@ -177,7 +184,6 @@ void initPort4(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 {
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
-	NVIC_InitTypeDef nvicInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
 }
 
@@ -186,7 +192,6 @@ void initPort5(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 {
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
-	NVIC_InitTypeDef nvicInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
 }
 
@@ -196,17 +201,258 @@ void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
 	NVIC_InitTypeDef nvicInitStruct;
-	GPIO_InitTypeDef gpioInitStruct;
-}
-
-void setGpio(HwFlowCtrl iHwFlowCtrl, LinkMode iMode, COMMPort iPort)
-{
 
 }
 
-void setNvic(COMMPort iPort, uint8_t iPrempPriority)
+uint16_t setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
+	uint16_t pinSourceUsed = 0;
 
+	switch (iPort)
+	{
+		case COMM_PORT_1:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_10;
+			pinSourceUsed = GPIO_PinSource10;
+			break;
+		case COMM_PORT_2:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_6;
+			pinSourceUsed = GPIO_PinSource6;
+			break;
+		case COMM_PORT_3:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_11;
+			pinSourceUsed = GPIO_PinSource11;
+			break;
+		case COMM_PORT_4:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_11;
+			pinSourceUsed = GPIO_PinSource11;
+			break;
+		case COMM_PORT_5:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_2;
+			pinSourceUsed = GPIO_PinSource2;
+			break;
+		case COMM_PORT_6:
+			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_7;
+			pinSourceUsed = GPIO_PinSource7;
+			break;
+		case NO_PORT:
+			break;
+	}
+
+	iUsartInitStruct.USART_Mode = iUsartInitStruct.USART_Mode | USART_Mode_Rx;
+
+	return pinSourceUsed;
+}
+
+uint16_t setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	uint16_t pinSourceUsed = 0;
+
+	switch (iPort)
+	{
+	case COMM_PORT_1:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_9;
+		pinSourceUsed = GPIO_PinSource9;
+		break;
+	case COMM_PORT_2:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_5;
+		pinSourceUsed = GPIO_PinSource5;
+		break;
+	case COMM_PORT_3:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_10;
+		pinSourceUsed = GPIO_PinSource10;
+		break;
+	case COMM_PORT_4:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_10;
+		pinSourceUsed = GPIO_PinSource10;
+		break;
+	case COMM_PORT_5:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_12;
+		pinSourceUsed = GPIO_PinSource12;
+		break;
+	case COMM_PORT_6:
+		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_6;
+		pinSourceUsed = GPIO_PinSource6;
+		break;
+	case NO_PORT:
+		break;
+	}
+
+	iUsartInitStruct.USART_Mode = iUsartInitStruct.USART_Mode | USART_Mode_Tx;
+
+	return pinSourceUsed;
+}
+
+uint16_t setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	uint16_t pinSourceUsed = 0;
+
+	switch (iPort)
+	{
+	case COMM_PORT_1:
+		iGpioInitStruct.GPIO_Pin =
+				iGpioInitStruct.GPIO_Pin | GPIO_Pin_10 | GPIO_Pin_9;
+		pinSourceUsed = GPIO_PinSource10 | GPIO_PinSource9;
+		break;
+	case COMM_PORT_2:
+		iGpioInitStruct.GPIO_Pin =
+				iGpioInitStruct.GPIO_Pin | GPIO_Pin_6 | GPIO_Pin_5;
+		pinSourceUsed = GPIO_PinSource6 | GPIO_PinSource5;
+		break;
+	case COMM_PORT_3:
+		iGpioInitStruct.GPIO_Pin =
+				iGpioInitStruct.GPIO_Pin | GPIO_Pin_11 | GPIO_Pin_10;
+		pinSourceUsed = GPIO_PinSource11 | GPIO_PinSource10;
+		break;
+	case COMM_PORT_4:
+	case COMM_PORT_3:
+		iGpioInitStruct.GPIO_Pin =
+				iGpioInitStruct.GPIO_Pin | GPIO_Pin_11 | GPIO_Pin_10;
+		pinSourceUsed = GPIO_PinSource11 | GPIO_PinSource10;
+		break;
+	case COMM_PORT_5:
+		break;
+	case COMM_PORT_6:
+	case COMM_PORT_3:
+		iGpioInitStruct.GPIO_Pin =
+				iGpioInitStruct.GPIO_Pin | GPIO_Pin_11 | GPIO_Pin_10;
+		pinSourceUsed = GPIO_PinSource11 | GPIO_PinSource10;
+		break;
+	case NO_PORT:
+		break;
+	}
+
+	iUsartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
+	return pinSourceUsed;
+}
+
+void setAsNoHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+		iUsartInitStruct.USART_HardwareFlowControl =
+				USART_HardwareFlowControl_None;
+}
+
+uint16_t setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	uint16_t pinSourceUsed = 0;
+
+		switch (iPort)
+		{
+			case COMM_PORT_1:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_12;
+				pinSourceUsed = GPIO_PinSource12;
+				break;
+			case COMM_PORT_2:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_4;
+				pinSourceUsed = GPIO_PinSource4;
+				break;
+			case COMM_PORT_3:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_4:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_5:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_6:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_8;
+				pinSourceUsed = GPIO_PinSource8;
+				break;
+			case NO_PORT:
+				break;
+		}
+
+		iUsartInitStruct.USART_HardwareFlowControl =
+				iUsartInitStruct.USART_HardwareFlowControl |
+				USART_HardwareFlowControl_RTS;
+
+		return pinSourceUsed;
+}
+
+uint16_t setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	uint16_t pinSourceUsed = 0;
+
+		switch (iPort)
+		{
+			case COMM_PORT_1:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_11;
+				pinSourceUsed = GPIO_PinSource11;
+				break;
+			case COMM_PORT_2:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_3;
+				pinSourceUsed = GPIO_PinSource3;
+				break;
+			case COMM_PORT_3:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_4:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_5:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_6:
+				//TODO: need implementation relative to the device
+				break;
+			case NO_PORT:
+				break;
+		}
+
+		iUsartInitStruct.USART_HardwareFlowControl =
+				iUsartInitStruct.USART_HardwareFlowControl |
+				USART_HardwareFlowControl_CTS;
+
+		return pinSourceUsed;
+}
+
+uint16_t setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	uint16_t pinSourceUsed;
+
+		switch (iPort)
+		{
+			case COMM_PORT_1:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_12 | GPIO_Pin_11;
+				pinSourceUsed = GPIO_PinSource12 | GPIO_PinSource11;
+				break;
+			case COMM_PORT_2:
+				iGpioInitStruct.GPIO_Pin =
+						iGpioInitStruct.GPIO_Pin | GPIO_Pin_4 | GPIO_Pin_3;
+				pinSourceUsed = GPIO_PinSource4 | GPIO_PinSource3;
+				break;
+			case COMM_PORT_3:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_4:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_5:
+				//TODO: may need implementation for other than STM32F405/07xx
+				break;
+			case COMM_PORT_6:
+				//TODO: need implementation relative to the device
+				break;
+		}
+
+		iUsartInitStruct.USART_HardwareFlowControl =
+				iUsartInitStruct.USART_HardwareFlowControl |
+				USART_HardwareFlowControl_RTS_CTS;
+
+		return pinSourceUsed;
 }
 
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength)
@@ -251,12 +497,37 @@ void setParity(USART_InitTypeDef &iUsartInitStruct, Parity iParity)
 	}
 }
 
-void setHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct, HwFlowCtrl iHwFlowCtrl)
+void setNvic(COMMPort iPort, uint8_t iPreampPriority, uint8_t iSubPriority)
 {
+	NVIC_InitTypeDef nvicInitStruct;
 
-}
+	switch(iPort)
+	{
+		case COMM_PORT_1:
+			nvicInitStruct.NVIC_IRQChannel = USART1_IRQn;
+			break;
+		case COMM_PORT_2:
+			nvicInitStruct.NVIC_IRQChannel = USART2_IRQn;
+			break;
+		case COMM_PORT_3:
+			nvicInitStruct.NVIC_IRQChannel = USART3_IRQn;
+			break;
+		case COMM_PORT_4:
+			nvicInitStruct.NVIC_IRQChannel = UART4_IRQn;
+			break;
+		case COMM_PORT_5:
+			nvicInitStruct.NVIC_IRQChannel = UART5_IRQn;
+			break;
+		case COMM_PORT_6:
+			nvicInitStruct.NVIC_IRQChannel = USART6_IRQn;
+			break;
+		case NO_PORT:
+			break;
+	}
 
-void setLinkMode(USART_InitTypeDef &iUsartInitStruct, LinkMode iLinkMode)
-{
+	nvicInitStruct.NVIC_IRQChannelPreemptionPriority = iPreampPriority;
+	nvicInitStruct.NVIC_IRQChannelSubPriority = iSubPriority;
+	nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
 
+	NVIC_Init(&nvicInitStruct);
 }
