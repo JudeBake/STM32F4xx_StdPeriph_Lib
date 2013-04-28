@@ -66,7 +66,13 @@ typedef enum
 
 typedef enum
 {
+	INT_DISEABLE,
+	INT_ENABLE
+} InterruptSetting;
 
+typedef enum
+{
+	//TODO: implement error code, may be in a common file for all Serial class
 } SerialError;
 
 #endif /* SERIALTYPE_H_ */

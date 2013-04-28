@@ -1,5 +1,5 @@
 /*
- * Serial.cpp
+ * AsyncSerial.cpp
  *
  *  Created on: Apr 24, 2013
  *      Author: julien
@@ -46,7 +46,7 @@ uint16_t setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength);
 void setStopBits(USART_InitTypeDef &iUsartInitStruct, StopBits iStopBit);
 void setParity(USART_InitTypeDef &iUsartInitStruct, Parity iParity);
-void setNvic(COMMPort iPort, uint8_t iPreampPriority, uint8_t iSubPriority);
+void setNvic(COMMPort iPort, uint8_t iPreempPriority, uint8_t iSubPriority);
 
 AsyncSerial::AsyncSerial()
 {
@@ -58,11 +58,13 @@ AsyncSerial::AsyncSerial()
 	hwFlowCtrl = NO_HW_FLOW_CTRL;
 	linkMode = FULL_DUPLEX;
 	baudRate = BAUD_19200;
+	interruptSetting = INT_DISEABLE;
 }
 
 AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
 		StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl,
-		LinkMode iLinkMode, BaudRate iBaudRateConf)
+		LinkMode iLinkMode, BaudRate iBaudRateConf,
+		InterruptSetting iInterruptSetting)
 {
 	//init the port setting
 	commPort = iPort;
@@ -72,6 +74,7 @@ AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
 	hwFlowCtrl = iHwFlowCtrl;
 	linkMode = iLinkMode;
 	baudRate = iBaudRateConf;
+	interruptSetting = iInterruptSetting;
 
 	//init the port queues
 	dataStreamIn.Create(STRING_BUFFER_LENGTH, sizeof(int8_t));
@@ -109,22 +112,6 @@ AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
 				break;
 		}
 	}
-}
-
-void initUsartStruct(USART_InitTypeDef &iUsartInitStruct)
-{
-
-}
-
-void nvicInit(void)
-{
-	NVIC_InitTypeDef nvicInitStruct;
-
-	nvicInitStruct.NVIC_IRQChannel = USART1_IRQn;
-	nvicInitStruct.NVIC_IRQChannelPreemptionPriority = configLIBRARY_LOWEST_INTERRUPT_PRIORITY;
-	nvicInitStruct.NVIC_IRQChannelSubPriority = 0;
-	nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&nvicInitStruct);
 }
 
 void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
@@ -497,7 +484,7 @@ void setParity(USART_InitTypeDef &iUsartInitStruct, Parity iParity)
 	}
 }
 
-void setNvic(COMMPort iPort, uint8_t iPreampPriority, uint8_t iSubPriority)
+void setNvic(COMMPort iPort, uint8_t iPreempPriority, uint8_t iSubPriority)
 {
 	NVIC_InitTypeDef nvicInitStruct;
 
@@ -525,7 +512,7 @@ void setNvic(COMMPort iPort, uint8_t iPreampPriority, uint8_t iSubPriority)
 			break;
 	}
 
-	nvicInitStruct.NVIC_IRQChannelPreemptionPriority = iPreampPriority;
+	nvicInitStruct.NVIC_IRQChannelPreemptionPriority = iPreempPriority;
 	nvicInitStruct.NVIC_IRQChannelSubPriority = iSubPriority;
 	nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
 

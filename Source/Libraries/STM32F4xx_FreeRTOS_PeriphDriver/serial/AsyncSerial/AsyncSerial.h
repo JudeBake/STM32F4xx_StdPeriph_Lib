@@ -12,6 +12,14 @@
 
 #define STRING_BUFFER_LENGTH	50
 
+#define PREEMP_PRIORITY			15
+#define USART1_SUBPRIORITY		0
+#define USART2_SUBPRIORITY		0
+#define USART3_SUBPRIORITY		0
+#define USART4_SUBPRIORITY		0
+#define USART5_SUBPRIORITY		0
+#define USART6_SUBPRIORITY		0
+
 class AsyncSerial
 {
 	//port configuration
@@ -22,6 +30,9 @@ class AsyncSerial
 	HwFlowCtrl hwFlowCtrl;
 	LinkMode linkMode;
 	BaudRate baudRate;
+	uint8_t preempPriority;
+	uint8_t subPriority;
+	InterruptSetting interruptSetting;
 
 	//queue handle
 	CQueue dataStreamIn;
@@ -32,12 +43,12 @@ public:
 	AsyncSerial(void);
 	AsyncSerial(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
 			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
-			BaudRate iBaudRateConf);
+			BaudRate iBaudRateConf, InterruptSetting iInterruptSetting);
 
 	//init methods
 	uint8_t usartInit(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
 			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
-			BaudRate iBaudRateConf);
+			BaudRate iBaudRateConf, InterruptSetting iInterruptSetting);
 
 	//port reading methods
 	uint8_t getChar(const int8_t *oCharacter, portTickType iBlockTime);
