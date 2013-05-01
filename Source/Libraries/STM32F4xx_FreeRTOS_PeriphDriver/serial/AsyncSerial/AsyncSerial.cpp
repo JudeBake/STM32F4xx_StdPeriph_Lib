@@ -19,7 +19,7 @@
 
 //Class include
 #include "AsyncSerial.h"
-#include "SerialPinAssignment.h"
+#include "stm32f4xx_USARTPinAss.h"
 
 //private function
 void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
@@ -46,18 +46,18 @@ void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRate,
 		uint8_t iPreempPriority, uint8_t iSubPriority,
 		InterruptSetting iInterruptSetting);
-uint16_t setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
-uint16_t setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
-uint16_t setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
 void setAsNoHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct);
-uint16_t setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
-uint16_t setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
-uint16_t setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort);
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength);
 void setStopBits(USART_InitTypeDef &iUsartInitStruct, StopBits iStopBit);
@@ -148,53 +148,47 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
-	uint16_t pinSourceUsed = 0;
 
 	//enable USART clock
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
 	//setting up the link mode
-	gpioInitStruct.GPIO_Pin = 0;
 	switch (iLinkMode)
 	{
-		case SIMPLEX_RX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexRx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
-		case SIMPLEX_TX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexTx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
-		case FULL_DUPLEX:
-			pinSourceUsed = pinSourceUsed | setAsFullDuplex(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
 	}
 
 	//setting up the hardware flow control
 	switch (iHwFlowCtrl)
 	{
-		case NO_HW_FLOW_CTRL:
-			setAsNoHwFlowCtrl(usartInitStruct);
-			break;
-		case HW_FLOW_CTRL_RTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
-		case HW_FLOW_CTRL_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
-		case HW_FLOW_CTRL_RTS_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTSCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_1);
-			break;
+	case NO_HW_FLOW_CTRL:
+		setAsNoHwFlowCtrl(usartInitStruct);
+		break;
+	case HW_FLOW_CTRL_RTS:
+		setAsHwFlowCtrlRTS(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
+	case HW_FLOW_CTRL_CTS:
+		setAsHwFlowCtrlCTS(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
+	case HW_FLOW_CTRL_RTS_CTS:
+		setAsHwFlowCtrlRTSCTS(gpioInitStruct, usartInitStruct, COMM_PORT_1);
+		break;
 	}
-
-	//init the gpio
-	GPIO_Init(GPIOA, &gpioInitStruct);
-	GPIO_PinAFConfig(GPIOA, pinSourceUsed, GPIO_AF_USART1);
 
 	//setting up the baud rate, the word length the stop bit and the parity
 	usartInitStruct.USART_BaudRate = iBaudRate;
@@ -229,53 +223,47 @@ void initPort2(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
-	uint16_t pinSourceUsed = 0;
 
 	//enable USART clock
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
 	//setting up the link mode
-	gpioInitStruct.GPIO_Pin = 0;
 	switch (iLinkMode)
 	{
-		case SIMPLEX_RX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexRx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
-		case SIMPLEX_TX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexTx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
-		case FULL_DUPLEX:
-			pinSourceUsed = pinSourceUsed | setAsFullDuplex(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
 	}
 
 	//setting up the hardware flow control
 	switch (iHwFlowCtrl)
 	{
-		case NO_HW_FLOW_CTRL:
-			setAsNoHwFlowCtrl(usartInitStruct);
-			break;
-		case HW_FLOW_CTRL_RTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
-		case HW_FLOW_CTRL_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
-		case HW_FLOW_CTRL_RTS_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTSCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_2);
-			break;
+	case NO_HW_FLOW_CTRL:
+		setAsNoHwFlowCtrl(usartInitStruct);
+		break;
+	case HW_FLOW_CTRL_RTS:
+		setAsHwFlowCtrlRTS(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
+	case HW_FLOW_CTRL_CTS:
+		setAsHwFlowCtrlCTS(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
+	case HW_FLOW_CTRL_RTS_CTS:
+		setAsHwFlowCtrlRTSCTS(gpioInitStruct, usartInitStruct, COMM_PORT_2);
+		break;
 	}
-
-	//init the gpio
-	GPIO_Init(GPIOD, &gpioInitStruct);
-	GPIO_PinAFConfig(GPIOD, pinSourceUsed, GPIO_AF_USART2);
 
 	//setting up the baud rate, the word length the stop bit and the parity
 	usartInitStruct.USART_BaudRate = iBaudRate;
@@ -310,53 +298,47 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
-	uint16_t pinSourceUsed = 0;
 
 	//enable USART clock
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
 	//setting up the link mode
-	gpioInitStruct.GPIO_Pin = 0;
 	switch (iLinkMode)
 	{
-		case SIMPLEX_RX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexRx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case SIMPLEX_TX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexTx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case FULL_DUPLEX:
-			pinSourceUsed = pinSourceUsed | setAsFullDuplex(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
 	}
 
 	//setting up the hardware flow control
 	switch (iHwFlowCtrl)
 	{
-		case NO_HW_FLOW_CTRL:
-			setAsNoHwFlowCtrl(usartInitStruct);
-			break;
-		case HW_FLOW_CTRL_RTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case HW_FLOW_CTRL_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case HW_FLOW_CTRL_RTS_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTSCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
+	case NO_HW_FLOW_CTRL:
+		setAsNoHwFlowCtrl(usartInitStruct);
+		break;
+	case HW_FLOW_CTRL_RTS:
+		setAsHwFlowCtrlRTS(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
+	case HW_FLOW_CTRL_CTS:
+		setAsHwFlowCtrlCTS(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
+	case HW_FLOW_CTRL_RTS_CTS:
+		setAsHwFlowCtrlRTSCTS(gpioInitStruct, usartInitStruct, COMM_PORT_3);
+		break;
 	}
-
-	//init the gpio
-	GPIO_Init(GPIOD, &gpioInitStruct);
-	GPIO_PinAFConfig(GPIOB, pinSourceUsed, GPIO_AF_USART3);
 
 	//setting up the baud rate, the word length the stop bit and the parity
 	usartInitStruct.USART_BaudRate = iBaudRate;
@@ -391,53 +373,33 @@ void initPort4(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_InitTypeDef usartInitStruct;
 	USART_ClockInitTypeDef usartClockInitStruct;
 	GPIO_InitTypeDef gpioInitStruct;
-	uint16_t pinSourceUsed = 0;
 
 	//enable USART clock
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
 	//setting up the link mode
-	gpioInitStruct.GPIO_Pin = 0;
 	switch (iLinkMode)
 	{
-		case SIMPLEX_RX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexRx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case SIMPLEX_TX:
-			pinSourceUsed = pinSourceUsed | setAsSimplexTx(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case FULL_DUPLEX:
-			pinSourceUsed = pinSourceUsed | setAsFullDuplex(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_4);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_4);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_4);
+		break;
 	}
 
-	//setting up the hardware flow control
-	switch (iHwFlowCtrl)
-	{
-		case NO_HW_FLOW_CTRL:
-			setAsNoHwFlowCtrl(usartInitStruct);
-			break;
-		case HW_FLOW_CTRL_RTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case HW_FLOW_CTRL_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-		case HW_FLOW_CTRL_RTS_CTS:
-			pinSourceUsed = pinSourceUsed | setAsHwFlowCtrlRTSCTS(gpioInitStruct,
-					usartInitStruct, COMM_PORT_3);
-			break;
-	}
-
-	//init the gpio
-	GPIO_Init(GPIOD, &gpioInitStruct);
-	GPIO_PinAFConfig(GPIOB, pinSourceUsed, GPIO_AF_USART3);
+	//set the Hardware control flow (none for UART 4)
+	setAsNoHwFlowCtrl(usartInitStruct);
 
 	//setting up the baud rate, the word length the stop bit and the parity
 	usartInitStruct.USART_BaudRate = iBaudRate;
@@ -452,15 +414,15 @@ void initPort4(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	usartClockInitStruct.USART_LastBit = USART_LastBit_Disable;
 
 	//init the usart
-	USART_Init(USART3, &usartInitStruct);
-	USART_ClockInit(USART3, &usartClockInitStruct);
+	USART_Init(UART4, &usartInitStruct);
+	USART_ClockInit(UART4, &usartClockInitStruct);
 
 	//set the interrupt if enabled
 	if (iInterruptSetting == INT_ENABLE)
 	{
-		setNvic(COMM_PORT_3, iPreempPriority, iSubPriority);
-		USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-		USART_Cmd(USART3, ENABLE);
+		setNvic(COMM_PORT_4, iPreempPriority, iSubPriority);
+		USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
+		USART_Cmd(UART4, ENABLE);
 	}
 }
 
@@ -469,7 +431,60 @@ void initPort5(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		uint8_t iPreempPriority, uint8_t iSubPriority,
 		InterruptSetting iInterruptSetting)
 {
+	USART_InitTypeDef usartInitStruct;
+	USART_ClockInitTypeDef usartClockInitStruct;
+	GPIO_InitTypeDef gpioInitStruct;
 
+	//enable USART clock
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+
+	//setting up the link mode
+	switch (iLinkMode)
+	{
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_5);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_5);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_5);
+		break;
+	}
+
+	//set the Hardware control flow (none for UART 4)
+	setAsNoHwFlowCtrl(usartInitStruct);
+
+	//setting up the baud rate, the word length the stop bit and the parity
+	usartInitStruct.USART_BaudRate = iBaudRate;
+	setWordLength(usartInitStruct, iDataLength);
+	setStopBits(usartInitStruct, iStopBit);
+	setParity(usartInitStruct, iParity);
+
+	//set up the usart clock
+	usartClockInitStruct.USART_Clock = USART_Clock_Disable;
+	usartClockInitStruct.USART_CPOL = USART_CPOL_Low;
+	usartClockInitStruct.USART_CPHA = USART_CPHA_2Edge;
+	usartClockInitStruct.USART_LastBit = USART_LastBit_Disable;
+
+	//init the usart
+	USART_Init(UART5, &usartInitStruct);
+	USART_ClockInit(UART5, &usartClockInitStruct);
+
+	//set the interrupt if enabled
+	if (iInterruptSetting == INT_ENABLE)
+	{
+		setNvic(COMM_PORT_5, iPreempPriority, iSubPriority);
+		USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
+		USART_Cmd(UART5, ENABLE);
+	}
 }
 
 void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
@@ -477,130 +492,208 @@ void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		uint8_t iPreempPriority, uint8_t iSubPriority,
 		InterruptSetting iInterruptSetting)
 {
+	USART_InitTypeDef usartInitStruct;
+	USART_ClockInitTypeDef usartClockInitStruct;
+	GPIO_InitTypeDef gpioInitStruct;
 
-}
+	//enable USART clock
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 
-uint16_t setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
-		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
-{
-	uint16_t pinSourceUsed = 0;
+	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
+	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
 
-	switch (iPort)
+	//setting up the link mode
+	switch (iLinkMode)
 	{
-		case COMM_PORT_1:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | USART1_RX;
-			pinSourceUsed = USART1_RX_SOURCE;
-			break;
-		case COMM_PORT_2:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_6;
-			pinSourceUsed = GPIO_PinSource6;
-			break;
-		case COMM_PORT_3:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_11;
-			pinSourceUsed = GPIO_PinSource11;
-			break;
-		case COMM_PORT_4:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_11;
-			pinSourceUsed = GPIO_PinSource11;
-			break;
-		case COMM_PORT_5:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_2;
-			pinSourceUsed = GPIO_PinSource2;
-			break;
-		case COMM_PORT_6:
-			iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_7;
-			pinSourceUsed = GPIO_PinSource7;
-			break;
-		case NO_PORT:
-			break;
+	case SIMPLEX_RX:
+		setAsSimplexRx(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
+	case SIMPLEX_TX:
+		setAsSimplexTx(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
+	case FULL_DUPLEX:
+		setAsFullDuplex(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
 	}
 
-	iUsartInitStruct.USART_Mode = iUsartInitStruct.USART_Mode | USART_Mode_Rx;
+	//setting up the hardware flow control
+	switch (iHwFlowCtrl)
+	{
+	case NO_HW_FLOW_CTRL:
+		setAsNoHwFlowCtrl(usartInitStruct);
+		break;
+	case HW_FLOW_CTRL_RTS:
+		setAsHwFlowCtrlRTS(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
+	case HW_FLOW_CTRL_CTS:
+		setAsHwFlowCtrlCTS(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
+	case HW_FLOW_CTRL_RTS_CTS:
+		setAsHwFlowCtrlRTSCTS(gpioInitStruct, usartInitStruct, COMM_PORT_6);
+		break;
+	}
 
-	return pinSourceUsed;
+	//setting up the baud rate, the word length the stop bit and the parity
+	usartInitStruct.USART_BaudRate = iBaudRate;
+	setWordLength(usartInitStruct, iDataLength);
+	setStopBits(usartInitStruct, iStopBit);
+	setParity(usartInitStruct, iParity);
+
+	//set up the usart clock
+	usartClockInitStruct.USART_Clock = USART_Clock_Disable;
+	usartClockInitStruct.USART_CPOL = USART_CPOL_Low;
+	usartClockInitStruct.USART_CPHA = USART_CPHA_2Edge;
+	usartClockInitStruct.USART_LastBit = USART_LastBit_Disable;
+
+	//init the usart
+	USART_Init(USART6, &usartInitStruct);
+	USART_ClockInit(USART6, &usartClockInitStruct);
+
+	//set the interrupt if enabled
+	if (iInterruptSetting == INT_ENABLE)
+	{
+		setNvic(COMM_PORT_6, iPreempPriority, iSubPriority);
+		USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
+		USART_Cmd(USART6, ENABLE);
+	}
 }
 
-uint16_t setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsSimplexRx(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
-	uint16_t pinSourceUsed = 0;
-
 	switch (iPort)
 	{
 	case COMM_PORT_1:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | USART1_TX;
-		pinSourceUsed = USART1_TX_SOURCE;
+		iGpioInitStruct.GPIO_Pin = USART1_RX;
+		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RX_SOURCE, GPIO_AF_USART1);
 		break;
 	case COMM_PORT_2:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_5;
-		pinSourceUsed = GPIO_PinSource5;
+		iGpioInitStruct.GPIO_Pin = USART2_RX;
+		GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RX_SOURCE, GPIO_AF_USART2);
 		break;
 	case COMM_PORT_3:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_10;
-		pinSourceUsed = GPIO_PinSource10;
+		iGpioInitStruct.GPIO_Pin = USART3_RX;
+		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE, GPIO_AF_USART3);
 		break;
 	case COMM_PORT_4:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_10;
-		pinSourceUsed = GPIO_PinSource10;
+		iGpioInitStruct.GPIO_Pin = UART4_RX;
+		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART4_GPIO_PORT, UART4_RX_SOURCE, GPIO_AF_UART4);
 		break;
 	case COMM_PORT_5:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_12;
-		pinSourceUsed = GPIO_PinSource12;
+		iGpioInitStruct.GPIO_Pin = UART5_RX;
+		GPIO_Init(UART5_GPIO_PORT_RX, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART5_GPIO_PORT_RX, UART5_RX_SOURCE, GPIO_AF_UART5);
 		break;
 	case COMM_PORT_6:
-		iGpioInitStruct.GPIO_Pin = iGpioInitStruct.GPIO_Pin | GPIO_Pin_6;
-		pinSourceUsed = GPIO_PinSource6;
+		iGpioInitStruct.GPIO_Pin = USART6_RX;
+		GPIO_Init(USART6_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART6_GPIO_PORT, USART6_RX_SOURCE, GPIO_AF_USART6);
 		break;
 	case NO_PORT:
 		break;
 	}
 
-	iUsartInitStruct.USART_Mode = iUsartInitStruct.USART_Mode | USART_Mode_Tx;
-
-	return pinSourceUsed;
+	iUsartInitStruct.USART_Mode = USART_Mode_Rx;
 }
 
-uint16_t setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsSimplexTx(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
-	uint16_t pinSourceUsed = 0;
-
 	switch (iPort)
 	{
 	case COMM_PORT_1:
-		iGpioInitStruct.GPIO_Pin =
-				iGpioInitStruct.GPIO_Pin | USART1_RX | USART1_TX;
-		pinSourceUsed = USART1_RX_SOURCE | USART1_TX_SOURCE;
+		iGpioInitStruct.GPIO_Pin = USART1_TX;
+		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_TX_SOURCE, GPIO_AF_USART1);
 		break;
 	case COMM_PORT_2:
-		iGpioInitStruct.GPIO_Pin =
-				iGpioInitStruct.GPIO_Pin | GPIO_Pin_6 | GPIO_Pin_5;
-		pinSourceUsed = GPIO_PinSource6 | GPIO_PinSource5;
+		iGpioInitStruct.GPIO_Pin = USART2_TX;
+		GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_TX_SOURCE, GPIO_AF_USART2);
 		break;
 	case COMM_PORT_3:
-		iGpioInitStruct.GPIO_Pin =
-				iGpioInitStruct.GPIO_Pin | GPIO_Pin_11 | GPIO_Pin_10;
-		pinSourceUsed = GPIO_PinSource11 | GPIO_PinSource10;
+		iGpioInitStruct.GPIO_Pin = USART3_TX;
+		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_TX_SOURCE, GPIO_AF_USART3);
 		break;
 	case COMM_PORT_4:
-		iGpioInitStruct.GPIO_Pin =
-				iGpioInitStruct.GPIO_Pin | GPIO_Pin_11 | GPIO_Pin_10;
-		pinSourceUsed = GPIO_PinSource11 | GPIO_PinSource10;
+		iGpioInitStruct.GPIO_Pin = UART4_TX;
+		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART4_GPIO_PORT, UART4_TX_SOURCE, GPIO_AF_UART4);
 		break;
 	case COMM_PORT_5:
+		iGpioInitStruct.GPIO_Pin = UART5_TX;
+		GPIO_Init(UART5_GPIO_PORT_TX, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART5_GPIO_PORT_TX, UART5_TX_SOURCE, GPIO_AF_UART5);
 		break;
 	case COMM_PORT_6:
-		iGpioInitStruct.GPIO_Pin =
-				iGpioInitStruct.GPIO_Pin | GPIO_Pin_7 | GPIO_Pin_6;
-		pinSourceUsed = GPIO_PinSource7 | GPIO_PinSource6;
+		iGpioInitStruct.GPIO_Pin = USART6_TX;
+		GPIO_Init(USART6_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART6_GPIO_PORT, USART6_TX_SOURCE, GPIO_AF_USART6);
+		break;
+	case NO_PORT:
+		break;
+	}
+
+	iUsartInitStruct.USART_Mode = USART_Mode_Tx;
+}
+
+void setAsFullDuplex(GPIO_InitTypeDef &iGpioInitStruct,
+		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
+{
+	switch (iPort)
+	{
+	case COMM_PORT_1:
+		iGpioInitStruct.GPIO_Pin = USART1_RX | USART1_TX;
+		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RX_SOURCE | USART1_TX_SOURCE,
+				GPIO_AF_USART1);
+		break;
+	case COMM_PORT_2:
+		iGpioInitStruct.GPIO_Pin = USART2_RX | USART2_TX;
+		GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RX_SOURCE | USART2_TX_SOURCE,
+				GPIO_AF_USART2);
+		break;
+	case COMM_PORT_3:
+		iGpioInitStruct.GPIO_Pin = USART3_RX | USART3_TX;
+		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE | USART3_TX_SOURCE,
+				GPIO_AF_USART3);
+		break;
+	case COMM_PORT_4:
+		iGpioInitStruct.GPIO_Pin = UART4_RX | UART4_TX;
+		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART4_GPIO_PORT, UART4_RX_SOURCE | UART4_TX_SOURCE,
+				GPIO_AF_UART4);
+		break;
+	case COMM_PORT_5:
+		iGpioInitStruct.GPIO_Pin = UART5_RX;
+		GPIO_Init(UART5_GPIO_PORT_RX, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART5_GPIO_PORT_RX, UART5_RX_SOURCE, GPIO_AF_UART5);
+		iGpioInitStruct.GPIO_Pin = UART5_TX;
+		GPIO_Init(UART5_GPIO_PORT_TX, &iGpioInitStruct);
+		GPIO_PinAFConfig(UART5_GPIO_PORT_TX, UART5_TX_SOURCE, GPIO_AF_UART5);
+		break;
+	case COMM_PORT_6:
+		iGpioInitStruct.GPIO_Pin = USART6_RX | USART6_TX;
+		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+		GPIO_PinAFConfig(USART6_GPIO_PORT, USART6_RX_SOURCE | USART6_TX_SOURCE,
+				GPIO_AF_USART6);
 		break;
 	case NO_PORT:
 		break;
 	}
 
 	iUsartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-	return pinSourceUsed;
 }
 
 void setAsNoHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct)
@@ -609,130 +702,125 @@ void setAsNoHwFlowCtrl(USART_InitTypeDef &iUsartInitStruct)
 				USART_HardwareFlowControl_None;
 }
 
-uint16_t setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
-	uint16_t pinSourceUsed = 0;
-
 		switch (iPort)
 		{
-			case COMM_PORT_1:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | USART1_RTS;
-				pinSourceUsed = USART1_RTS_SOURCE;
-				break;
-			case COMM_PORT_2:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_4;
-				pinSourceUsed = GPIO_PinSource4;
-				break;
-			case COMM_PORT_3:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_14;
-				pinSourceUsed = GPIO_PinSource14;
-				break;
-			case COMM_PORT_4:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_5:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_6:
-				//TODO: need device dependent implementation
-				break;
-			case NO_PORT:
-				break;
+		case COMM_PORT_1:
+			iGpioInitStruct.GPIO_Pin = USART1_RTS;
+			GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RTS_SOURCE, GPIO_AF_USART1);
+			break;
+		case COMM_PORT_2:
+			iGpioInitStruct.GPIO_Pin = USART2_RTS;
+			GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RTS_SOURCE, GPIO_AF_USART2);
+			break;
+		case COMM_PORT_3:
+			iGpioInitStruct.GPIO_Pin = USART3_RTS;
+			GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
+			break;
+		case COMM_PORT_4:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_5:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_6:
+			iGpioInitStruct.GPIO_Pin = USART6_RTS;
+			GPIO_Init(USART6_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART6_GPIO_PORT, USART6_RTS_SOURCE, GPIO_AF_USART6);
+			break;
+		case NO_PORT:
+			break;
 		}
 
 		iUsartInitStruct.USART_HardwareFlowControl =
-				iUsartInitStruct.USART_HardwareFlowControl |
 				USART_HardwareFlowControl_RTS;
-
-		return pinSourceUsed;
 }
 
-uint16_t setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
-	uint16_t pinSourceUsed = 0;
-
 		switch (iPort)
 		{
-			case COMM_PORT_1:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | USART1_CTS;
-				pinSourceUsed = USART1_CTS_SOURCE;
-				break;
-			case COMM_PORT_2:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_3;
-				pinSourceUsed = GPIO_PinSource3;
-				break;
-			case COMM_PORT_3:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_13;
-				pinSourceUsed = GPIO_PinSource13;
-				break;
-			case COMM_PORT_4:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_5:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_6:
-				//TODO: need implementation relative to the device
-				break;
-			case NO_PORT:
-				break;
+		case COMM_PORT_1:
+			iGpioInitStruct.GPIO_Pin = USART1_CTS;
+			GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_CTS_SOURCE, GPIO_AF_USART1);
+			break;
+		case COMM_PORT_2:
+			iGpioInitStruct.GPIO_Pin = USART2_CTS;
+			GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_CTS_SOURCE, GPIO_AF_USART2);
+			break;
+		case COMM_PORT_3:
+			iGpioInitStruct.GPIO_Pin = USART3_CTS;
+			GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
+			break;
+		case COMM_PORT_4:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_5:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_6:
+			iGpioInitStruct.GPIO_Pin = USART6_CTS;
+			GPIO_Init(USART6_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART6_GPIO_PORT, USART6_CTS_SOURCE, GPIO_AF_USART6);
+			break;
+		case NO_PORT:
+			break;
 		}
 
 		iUsartInitStruct.USART_HardwareFlowControl =
-				iUsartInitStruct.USART_HardwareFlowControl |
 				USART_HardwareFlowControl_CTS;
-
-		return pinSourceUsed;
 }
 
-uint16_t setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
+void setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
 		USART_InitTypeDef &iUsartInitStruct, COMMPort iPort)
 {
-	uint16_t pinSourceUsed;
-
 		switch (iPort)
 		{
-			case COMM_PORT_1:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_12 | GPIO_Pin_11;
-				pinSourceUsed = GPIO_PinSource12 | GPIO_PinSource11;
-				break;
-			case COMM_PORT_2:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_4 | GPIO_Pin_3;
-				pinSourceUsed = GPIO_PinSource4 | GPIO_PinSource3;
-				break;
-			case COMM_PORT_3:
-				iGpioInitStruct.GPIO_Pin =
-						iGpioInitStruct.GPIO_Pin | GPIO_Pin_14 | GPIO_Pin_13;
-				pinSourceUsed = GPIO_PinSource14 | GPIO_PinSource13;
-				break;
-			case COMM_PORT_4:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_5:
-				//TODO: may need implementation for other than STM32F405/07xx
-				break;
-			case COMM_PORT_6:
-				//TODO: need implementation relative to the device
-				break;
+		case COMM_PORT_1:
+			iGpioInitStruct.GPIO_Pin = USART1_RTS | USART1_CTS;
+			GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART1_GPIO_PORT,
+					USART1_RTS_SOURCE | USART1_CTS_SOURCE, GPIO_AF_USART1);
+			break;
+		case COMM_PORT_2:
+			iGpioInitStruct.GPIO_Pin = USART2_RTS | USART2_CTS;
+			GPIO_Init(USART2_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART2_GPIO_PORT,
+					USART2_RTS_SOURCE | USART2_CTS_SOURCE, GPIO_AF_USART2);
+			break;
+		case COMM_PORT_3:
+			iGpioInitStruct.GPIO_Pin = USART3_RTS | USART3_CTS;
+			GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART3_GPIO_PORT,
+					USART3_RTS_SOURCE | USART3_CTS_SOURCE, GPIO_AF_USART3);
+			break;
+		case COMM_PORT_4:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_5:
+			//TODO: may need implementation for other than STM32F405/07xx
+			break;
+		case COMM_PORT_6:
+			iGpioInitStruct.GPIO_Pin = USART6_RTS | USART6_CTS;
+			GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+			GPIO_PinAFConfig(USART3_GPIO_PORT,
+					USART3_RTS_SOURCE | USART3_CTS_SOURCE, GPIO_AF_USART3);
+			break;
 			case NO_PORT:
 				break;
 		}
 
 		iUsartInitStruct.USART_HardwareFlowControl =
-				iUsartInitStruct.USART_HardwareFlowControl |
 				USART_HardwareFlowControl_RTS_CTS;
-
-		return pinSourceUsed;
 }
 
 void setWordLength(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength)
