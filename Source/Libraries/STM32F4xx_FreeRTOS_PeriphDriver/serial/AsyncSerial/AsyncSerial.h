@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 24, 2013
  *      Author: julien
+ *
+ *  TODO: Need Device dependent implementation for the pins used by the ports.
+ *  for now it mostly support STM32F405/07xx LQPF100.
  */
 
 #ifndef SERIAL_H_
@@ -43,12 +46,14 @@ public:
 	AsyncSerial(void);
 	AsyncSerial(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
 			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
-			BaudRate iBaudRateConf, InterruptSetting iInterruptSetting);
+			BaudRate iBaudRateConf, uint8_t iPreempPriority,
+			uint8_t iSubPriority, InterruptSetting iInterruptSetting);
 
 	//init methods
 	uint8_t usartInit(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
 			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
-			BaudRate iBaudRateConf, InterruptSetting iInterruptSetting);
+			BaudRate iBaudRateConf, uint8_t iPreempPriority,
+			uint8_t iSubPriority, InterruptSetting iInterruptSetting);
 
 	//port reading methods
 	uint8_t getChar(const int8_t *oCharacter, portTickType iBlockTime);
