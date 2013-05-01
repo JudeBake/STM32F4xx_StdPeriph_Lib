@@ -66,13 +66,18 @@ typedef enum
 
 typedef enum
 {
-	INT_DISEABLE,
-	INT_ENABLE
+	USART_INT_DISEABLE,
+	USART_INT_ENABLE
 } InterruptSetting;
 
 typedef enum
 {
-	//TODO: implement error code, may be in a common file for all Serial class
+	USART_INIT_ERROR,
+	USART_OVERRUN_ERROR,
+	USART_NOIDE_ERROR,
+	USART_FRAMING_ERROR,
+	USART_PARITY_ERROR,
+	USART_SUCCESS
 } SerialError;
 
 

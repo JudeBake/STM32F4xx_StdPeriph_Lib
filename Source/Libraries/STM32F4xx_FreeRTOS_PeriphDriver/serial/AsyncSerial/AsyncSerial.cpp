@@ -76,7 +76,8 @@ AsyncSerial::AsyncSerial()
 	baudRate = BAUD_19200;
 	preempPriority = 0;
 	subPriority = 0;
-	interruptSetting = INT_DISEABLE;
+	interruptSetting = USART_INT_DISEABLE;
+	currentStatus = USART_INIT_ERROR;
 }
 
 AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
@@ -100,44 +101,159 @@ AsyncSerial::AsyncSerial(COMMPort iPort, Parity iParityConf,
 	dataStreamIn.Create(STRING_BUFFER_LENGTH, sizeof(int8_t));
 	dataStreamOut.Create(STRING_BUFFER_LENGTH, sizeof(int8_t));
 
-	if ((dataStreamIn != NULL) && (dataStreamOut != NULL))
+	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()))
 	{
 		switch (iPort)
 		{
-			case COMM_PORT_1:
-				initPort1(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
-						baudRate, preempPriority, subPriority,
-						interruptSetting);
-				break;
-			case COMM_PORT_2:
-				initPort2(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
-						baudRate, preempPriority, subPriority,
-						interruptSetting);
-				break;
-			case COMM_PORT_3:
-				initPort3(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
-						baudRate, preempPriority, subPriority,
-						interruptSetting);
-				break;
-			case COMM_PORT_4:
+		case COMM_PORT_1:
+			initPort1(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_2:
+			initPort2(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_3:
+			initPort3(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_4:
+			if (iHwFlowCtrl == NO_HW_FLOW_CTRL)
+			{
 				initPort4(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
 						baudRate, preempPriority, subPriority,
 						interruptSetting);
-				break;
-			case COMM_PORT_5:
+				currentStatus = USART_SUCCESS;
+			}
+			else
+			{
+				currentStatus = USART_INIT_ERROR;
+			}
+			break;
+		case COMM_PORT_5:
+			if (iHwFlowCtrl == NO_HW_FLOW_CTRL)
+			{
 				initPort5(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
 						baudRate, preempPriority, subPriority,
 						interruptSetting);
-				break;
-			case COMM_PORT_6:
-				initPort6(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
-						baudRate, preempPriority, subPriority,
-						interruptSetting);
-				break;
-			case NO_PORT:
-				break;
+				currentStatus = USART_SUCCESS;
+			}
+			else
+			{
+				currentStatus = USART_INIT_ERROR;
+			}
+			break;
+		case COMM_PORT_6:
+			initPort6(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case NO_PORT:
+			//just to shut down warning
+			break;
 		}
 	}
+}
+
+SerialError AsyncSerial::usartInit(COMMPort iPort, Parity iParityConf,
+		StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl,
+		LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority,
+		uint8_t iSubPriority, InterruptSetting iInterruptSetting)
+{
+	//init the port setting
+	commPort = iPort;
+	parity = iParityConf;
+	stopBits = iStopBitConf;
+	dataBits = iDataLengthConf;
+	hwFlowCtrl = iHwFlowCtrl;
+	linkMode = iLinkMode;
+	baudRate = iBaudRateConf;
+	preempPriority = iPreempPriority;
+	subPriority = iSubPriority;
+	interruptSetting = iInterruptSetting;
+
+	//init the port queues
+	dataStreamIn.Create(STRING_BUFFER_LENGTH, sizeof(int8_t));
+	dataStreamOut.Create(STRING_BUFFER_LENGTH, sizeof(int8_t));
+
+	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()))
+	{
+		switch (iPort)
+		{
+		case COMM_PORT_1:
+			initPort1(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_2:
+			initPort2(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_3:
+			initPort3(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case COMM_PORT_4:
+			if (iHwFlowCtrl == NO_HW_FLOW_CTRL)
+			{
+				initPort4(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+						baudRate, preempPriority, subPriority,
+						interruptSetting);
+				currentStatus = USART_SUCCESS;
+			}
+			else
+			{
+				currentStatus = USART_INIT_ERROR;
+			}
+			break;
+		case COMM_PORT_5:
+			if (iHwFlowCtrl == NO_HW_FLOW_CTRL)
+			{
+				initPort5(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+						baudRate, preempPriority, subPriority,
+						interruptSetting);
+				currentStatus = USART_SUCCESS;
+			}
+			else
+			{
+				currentStatus = USART_INIT_ERROR;
+			}
+			break;
+		case COMM_PORT_6:
+			initPort6(parity, stopBits, dataBits, hwFlowCtrl, linkMode,
+					baudRate, preempPriority, subPriority,
+					interruptSetting);
+			currentStatus = USART_SUCCESS;
+			break;
+		case NO_PORT:
+			//just to shut down warning
+			break;
+		}
+	}
+
+	else
+	{
+		currentStatus = USART_INIT_ERROR;
+	}
+
+	return currentStatus;
+}
+
+SerialError AsyncSerial::getCurrentStatus()
+{
+	return currentStatus;
 }
 
 void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
@@ -207,7 +323,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(USART1, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_1, iPreempPriority, iSubPriority);
 		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
@@ -282,7 +398,7 @@ void initPort2(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(USART2, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_2, iPreempPriority, iSubPriority);
 		USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
@@ -357,7 +473,7 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(USART3, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_3, iPreempPriority, iSubPriority);
 		USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
@@ -418,7 +534,7 @@ void initPort4(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(UART4, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_4, iPreempPriority, iSubPriority);
 		USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
@@ -479,7 +595,7 @@ void initPort5(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(UART5, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_5, iPreempPriority, iSubPriority);
 		USART_ITConfig(UART5, USART_IT_RXNE, ENABLE);
@@ -554,7 +670,7 @@ void initPort6(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	USART_ClockInit(USART6, &usartClockInitStruct);
 
 	//set the interrupt if enabled
-	if (iInterruptSetting == INT_ENABLE)
+	if (iInterruptSetting == USART_INT_ENABLE)
 	{
 		setNvic(COMM_PORT_6, iPreempPriority, iSubPriority);
 		USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
@@ -723,10 +839,10 @@ void setAsHwFlowCtrlRTS(GPIO_InitTypeDef &iGpioInitStruct,
 			GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
 			break;
 		case COMM_PORT_4:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_5:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_6:
 			iGpioInitStruct.GPIO_Pin = USART6_RTS;
@@ -762,10 +878,10 @@ void setAsHwFlowCtrlCTS(GPIO_InitTypeDef &iGpioInitStruct,
 			GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
 			break;
 		case COMM_PORT_4:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_5:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_6:
 			iGpioInitStruct.GPIO_Pin = USART6_CTS;
@@ -804,10 +920,10 @@ void setAsHwFlowCtrlRTSCTS(GPIO_InitTypeDef &iGpioInitStruct,
 					USART3_RTS_SOURCE | USART3_CTS_SOURCE, GPIO_AF_USART3);
 			break;
 		case COMM_PORT_4:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_5:
-			//TODO: may need implementation for other than STM32F405/07xx
+			//just to shut down warning
 			break;
 		case COMM_PORT_6:
 			iGpioInitStruct.GPIO_Pin = USART6_RTS | USART6_CTS;

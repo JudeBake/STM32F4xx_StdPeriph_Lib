@@ -11,7 +11,7 @@
 #ifndef SERIAL_H_
 #define SERIAL_H_
 
-#include "AsyncSerialType.h"
+#include "SerialType.h"
 
 #define STRING_BUFFER_LENGTH	50
 
@@ -36,36 +36,41 @@ class AsyncSerial
 	uint8_t preempPriority;
 	uint8_t subPriority;
 	InterruptSetting interruptSetting;
+	SerialError currentStatus;
 
 	//queue handle
 	CQueue dataStreamIn;
 	CQueue dataStreamOut;
 
 public:
-	//constructors
+	/* Constructors */
 	AsyncSerial(void);
 	AsyncSerial(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
-			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
+			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode,
 			BaudRate iBaudRateConf, uint8_t iPreempPriority,
 			uint8_t iSubPriority, InterruptSetting iInterruptSetting);
 
-	//init methods
-	uint8_t usartInit(COMMPort iPort, Parity iParityConf, StopBits iStopBitConf,
-			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iMode,
-			BaudRate iBaudRateConf, uint8_t iPreempPriority,
-			uint8_t iSubPriority, InterruptSetting iInterruptSetting);
+	/* Serial port initializer */
+	SerialError usartInit(COMMPort iPort, Parity iParityConf,
+			StopBits iStopBitConf, DataBits iDataLengthConf,
+			HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRateConf,
+			uint8_t iPreempPriority, uint8_t iSubPriority,
+			InterruptSetting iInterruptSetting);
 
-	//port reading methods
-	uint8_t getChar(const int8_t *oCharacter, portTickType iBlockTime);
+	/* Current status getter */
+	SerialError getCurrentStatus();
 
-	//port writing methods
-	uint8_t putChar(const int8_t iCharacter, portTickType iBlockTime);
-	uint8_t putString(const int8_t * const iString);
+	/* Port reading method */
+	SerialError getChar(const int8_t *oCharacter, portTickType iBlockTime);
 
-	//semaphore methods
+	/* Port writing methods */
+	SerialError putChar(const int8_t iCharacter, portTickType iBlockTime);
+	SerialError putString(const int8_t * const iString);
+
+	/* Semaphore method */
 
 
-	//destructor
+	/* Destructor */
 	~AsyncSerial();
 };
 
