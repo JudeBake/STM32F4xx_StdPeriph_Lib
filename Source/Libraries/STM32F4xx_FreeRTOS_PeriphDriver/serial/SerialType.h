@@ -1,12 +1,12 @@
 /*
- * AsyncSerialType.h
+ * SerialType.h
  *
- *  Created on: Apr 24, 2013
+ *  Created on: May 1, 2013
  *      Author: julien
  */
 
-#ifndef ASYNCSERIALTYPE_H_
-#define ASYNCSERIALTYPE_H_
+#ifndef SERIALTYPE_H_
+#define SERIALTYPE_H_
 
 typedef enum
 {
@@ -74,5 +74,6 @@ typedef enum
 {
 	//TODO: implement error code, may be in a common file for all Serial class
 } SerialError;
+
 
 #endif /* SERIALTYPE_H_ */
