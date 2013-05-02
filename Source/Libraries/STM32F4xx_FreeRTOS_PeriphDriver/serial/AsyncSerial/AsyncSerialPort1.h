@@ -23,9 +23,11 @@
 
 class AsyncSerialPort1
 {
+public:
 	/* Port handle */
 	static AsyncSerialPort1 *portHandle;
 
+private:
 	/* Port configuration */
 	SerialStatus currentStatus;
 	Parity parity;
@@ -44,11 +46,11 @@ class AsyncSerialPort1
 
 	/* Constructors */
 	AsyncSerialPort1(void);
-	void AsyncSerialPort1(const AsyncSerialPort1 &);
+	AsyncSerialPort1(const AsyncSerialPort1 &);
 	void operator=(const AsyncSerialPort1 &);
 
 	/* Destructor */
-	~AsyncSerialPort1(void);
+	~AsyncSerialPort1(void){}
 
 public:
 	/* Instance getter */
@@ -76,7 +78,6 @@ public:
 	/* Closing port method */
 	static void closePort(void);
 };
-
 
 #endif /* ASYNC_SERIAL_PORT1 */
 #endif /* ASYNCSERIAL1_H_ */

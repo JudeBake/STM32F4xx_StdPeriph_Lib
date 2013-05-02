@@ -68,19 +68,24 @@ AsyncSerialPort1::AsyncSerialPort1()
 	dataStreamOut.Create(STRING_BUFFER_LENGTH, sizeof(uint8_t));
 }
 
-void AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
+AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
 {
-
+	//just to shut down warning
+	currentStatus = SERIAL_INIT_ERROR;
+	parity = SERIAL_NO_PARITY;
+	stopBits = SERIAL_1_STOP_BIT;
+	dataBits = SERIAL_8_BITS_DATA;
+	hwFlowCtrl = SERIAL_NO_HW_FLOW_CTRL;
+	linkMode = SERIAL_FULL_DUPLEX;
+	baudRate = SERIAL_19200_BAUD;
+	preempPriority = PREEMP_PRIORITY;
+	subPriority = USART1_SUBPRIORITY;
+	interruptSetting = SERIAL_INT_DISEABLE;
 }
 
 void AsyncSerialPort1::operator=(const AsyncSerialPort1 &)
 {
 
-}
-
-AsyncSerialPort1::~AsyncSerialPort1()
-{
-	*AsyncSerialPort1::portHandle = NULL;
 }
 
 /*
@@ -90,7 +95,7 @@ AsyncSerialPort1 *AsyncSerialPort1::getInstance(void)
 {
 	if (AsyncSerialPort1::portHandle == NULL)
 	{
-		*AsyncSerialPort1::portHandle = new AsyncSerialPort1;
+		AsyncSerialPort1::portHandle = new AsyncSerialPort1;
 	}
 
 	return AsyncSerialPort1::portHandle;
@@ -166,9 +171,10 @@ SerialStatus AsyncSerialPort1::putString(const int8_t *const iString)
 /*
  * Closing port method
  */
-void closePort(void)
+void AsyncSerialPort1::closePort(void)
 {
 	delete AsyncSerialPort1::portHandle;
+	AsyncSerialPort1::portHandle = NULL;
 }
 
 /*
@@ -224,7 +230,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	//set the interrupt if enabled
 	if (iInterruptSetting == SERIAL_INT_ENABLE)
 	{
-		setNvic(COMM_PORT_1, iPreempPriority, iSubPriority);
+		setNvicPort1(iPreempPriority, iSubPriority);
 		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 		USART_Cmd(USART1, ENABLE);
 	}
