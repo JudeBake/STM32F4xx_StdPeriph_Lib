@@ -16,10 +16,10 @@
 
 #include "SerialType.h"
 
-#define STRING_BUFFER_LENGTH	100
+#define SERIAL_PORT1_BUFFER_LENGTH		100
 
-#define PREEMP_PRIORITY			15
-#define USART1_SUBPRIORITY		0
+#define SERIAL_PORT1_PREEMP_PRIORITY	15
+#define SERIAL_PORT1_SUBPRIORITY		0
 
 class AsyncSerialPort1
 {
@@ -66,12 +66,19 @@ public:
 	/* Current status getter */
 	SerialStatus getCurrentStatus();
 
+	/* Current status setter ***USED ONLY IN INTERRUPT HANDLER*** */
+	void setCurrentStatus(SerialStatus iStatus);
+
+	/* Stream getters ***USED ONLY IN INTERRUPT HANDLER*** */
+	CQueue &getOutStream();
+	CQueue &getInStream();
+
 	/* Port reading method */
 	SerialStatus getChar(const int8_t *oCharacter, portTickType iBlockTime);
 
 	/* Port writing methods */
 	SerialStatus putChar(const int8_t iCharacter, portTickType iBlockTime);
-	SerialStatus putString(const int8_t * const iString);
+	SerialStatus putString(const int8_t * const iString, uint8_t iLength);
 
 	/* Semaphore method */
 

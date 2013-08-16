@@ -21,6 +21,9 @@
 #include "AsyncSerialPort1.h"
 #include "stm32f4xx_USARTPinAss.h"
 
+//Constantes definition
+#define SER_NO_BLOCK			((portTickType) 0)
+
 /*
  * Initializing the port handle
  */
@@ -60,12 +63,12 @@ AsyncSerialPort1::AsyncSerialPort1()
 	hwFlowCtrl = SERIAL_NO_HW_FLOW_CTRL;
 	linkMode = SERIAL_FULL_DUPLEX;
 	baudRate = SERIAL_19200_BAUD;
-	preempPriority = PREEMP_PRIORITY;
-	subPriority = USART1_SUBPRIORITY;
+	preempPriority = SERIAL_PORT1_PREEMP_PRIORITY;
+	subPriority = SERIAL_PORT1_SUBPRIORITY;
 	interruptSetting = SERIAL_INT_DISEABLE;
 
-	dataStreamIn.Create(STRING_BUFFER_LENGTH, sizeof(uint8_t));
-	dataStreamOut.Create(STRING_BUFFER_LENGTH, sizeof(uint8_t));
+	dataStreamIn.Create(SERIAL_PORT1_BUFFER_LENGTH, sizeof(uint8_t));
+	dataStreamOut.Create(SERIAL_PORT1_BUFFER_LENGTH, sizeof(uint8_t));
 }
 
 AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
@@ -78,8 +81,8 @@ AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
 	hwFlowCtrl = SERIAL_NO_HW_FLOW_CTRL;
 	linkMode = SERIAL_FULL_DUPLEX;
 	baudRate = SERIAL_19200_BAUD;
-	preempPriority = PREEMP_PRIORITY;
-	subPriority = USART1_SUBPRIORITY;
+	preempPriority = SERIAL_PORT1_PREEMP_PRIORITY;
+	subPriority = SERIAL_PORT1_SUBPRIORITY;
 	interruptSetting = SERIAL_INT_DISEABLE;
 }
 
@@ -121,8 +124,8 @@ SerialStatus AsyncSerialPort1::usartInit(Parity iParityConf,
 	subPriority = iSubPriority;
 	interruptSetting = iInterruptSetting;
 
-	dataStreamIn.Create(STRING_BUFFER_LENGTH, sizeof(uint8_t));
-	dataStreamOut.Create(STRING_BUFFER_LENGTH, sizeof(uint8_t));
+	dataStreamIn.Create(SERIAL_PORT1_BUFFER_LENGTH, sizeof(uint8_t));
+	dataStreamOut.Create(SERIAL_PORT1_BUFFER_LENGTH, sizeof(uint8_t));
 
 	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()))
 	{
@@ -145,13 +148,48 @@ SerialStatus AsyncSerialPort1::getCurrentStatus()
 	return currentStatus;
 }
 
+/* Current status setter
+ * ***USED ONLY IN INTERRUPT HANDLER***
+ */
+void AsyncSerialPort1::setCurrentStatus(SerialStatus iStatus)
+{
+	currentStatus = iStatus;
+}
+
+/*
+ * Stream getters
+ * ***USED ONLY IN INTERRUPT HANDLER***
+ */
+CQueue &AsyncSerialPort1::getOutStream()
+{
+	return dataStreamOut;
+}
+
+CQueue &AsyncSerialPort1::getInStream()
+{
+	return dataStreamIn;
+}
+
 /*
  * Port reading method
  */
 SerialStatus AsyncSerialPort1::getChar(const int8_t *oCharacter,
 		portTickType iBlockTime)
 {
-	return currentStatus;
+	SerialStatus oReturn;
+
+	if ((currentStatus == SERIAL_OK) &&
+			(dataStreamIn.Receive((void*)oCharacter, iBlockTime)))
+	{
+		oReturn = currentStatus;
+	}
+
+	else
+	{
+		oReturn = SERIAL_RX_BUFFER_EMPTY;
+	}
+
+	return oReturn;
 }
 
 /*
@@ -160,11 +198,46 @@ SerialStatus AsyncSerialPort1::getChar(const int8_t *oCharacter,
 SerialStatus AsyncSerialPort1::putChar(const int8_t iCharacter,
 		portTickType iBlockTime)
 {
+	if (dataStreamOut.Send((void*)&iCharacter, iBlockTime))
+	{
+		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+	}
+
+	else
+	{
+		currentStatus = SERIAL_TX_BUFFER_FULL;
+	}
+
 	return currentStatus;
 }
 
-SerialStatus AsyncSerialPort1::putString(const int8_t *const iString)
+SerialStatus AsyncSerialPort1::putString(const int8_t *const iString,
+		uint8_t iLength)
 {
+	int8_t *nextChar = (int8_t *)iString;
+	uint32_t bufferFreeSpace;
+
+	if (currentStatus == SERIAL_OK)
+	{
+		bufferFreeSpace = dataStreamOut.MessagesWaiting();
+
+		if (iLength <= (SERIAL_PORT1_BUFFER_LENGTH - bufferFreeSpace))
+		{
+			while (*nextChar)
+			{
+				currentStatus = putChar(*nextChar, SER_NO_BLOCK);
+				nextChar++;
+			}
+
+			currentStatus = SERIAL_OK;
+		}
+
+		else
+		{
+			currentStatus = SERIAL_TX_BUFFER_FULL;
+		}
+	}
+
 	return currentStatus;
 }
 
@@ -232,6 +305,16 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	{
 		setNvicPort1(iPreempPriority, iSubPriority);
 		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+		if ((iParity == SERIAL_ODD_PARITY) || (iParity == SERIAL_EVEN_PARITY))
+		{
+			USART_ITConfig(USART1, USART_IT_PE, ENABLE);
+		}
+		if (iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_CTS)
+		{
+			USART_ITConfig(USART1, USART_IT_CTS, ENABLE);
+		}
+
+		//TODO: enable error interrupt
 		USART_Cmd(USART1, ENABLE);
 	}
 }
@@ -362,7 +445,44 @@ void setNvicPort1(uint8_t iPreempPriority, uint8_t iSubPriority)
  */
 void usart1InterruptHandler(void)
 {
+	static AsyncSerialPort1 *portHandle = AsyncSerialPort1::getInstance();
+	static CQueue outStream = portHandle->getOutStream();
+	static CQueue inStream = portHandle->getInStream();
 
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	portCHAR cChar;
+
+	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET)
+	{
+		/* The interrupt was caused by the THR becoming empty.  Are there any
+			more characters to transmit? */
+		if(outStream.ReceiveFromISR(&cChar, &xHigherPriorityTaskWoken))
+		{
+			/* A character was retrieved from the queue so can be sent to the
+				THR now. */
+			USART_SendData(USART1, cChar);
+
+			if (portHandle->getCurrentStatus() == SERIAL_TX_BUFFER_FULL)
+			{
+				portHandle->setCurrentStatus(SERIAL_OK);
+			}
+		}
+		else
+		{
+			USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
+			portHandle->setCurrentStatus(SERIAL_RX_BUFFER_EMPTY);
+		}
+	}
+
+	if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+	{
+		cChar = USART_ReceiveData(USART1);
+
+		inStream.SendFromISR(&cChar, &xHigherPriorityTaskWoken);
+	}
+
+	//TODO: handling error interrupts
+	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken );
 }
 
 #endif
