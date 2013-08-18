@@ -212,31 +212,23 @@ SerialStatus AsyncSerialPort1::putChar(const int8_t iCharacter,
 }
 
 SerialStatus AsyncSerialPort1::putString(const int8_t *const iString,
-		uint8_t iLength)
+		uint32_t *oNbCharSent)
 {
 	int8_t *nextChar = (int8_t *)iString;
-	uint32_t bufferFreeSpace;
+	uint32_t nbCharSent = 0;
 
-	if (currentStatus == SERIAL_OK)
+	while (*nextChar && (currentStatus == SERIAL_OK))
 	{
-		bufferFreeSpace = dataStreamOut.MessagesWaiting();
+		currentStatus = putChar(*nextChar, SER_NO_BLOCK);
+		nextChar++;
 
-		if (iLength <= (SERIAL_PORT1_BUFFER_LENGTH - bufferFreeSpace))
+		if (currentStatus == SERIAL_OK)
 		{
-			while (*nextChar)
-			{
-				currentStatus = putChar(*nextChar, SER_NO_BLOCK);
-				nextChar++;
-			}
-
-			currentStatus = SERIAL_OK;
-		}
-
-		else
-		{
-			currentStatus = SERIAL_TX_BUFFER_FULL;
+			nbCharSent++;
 		}
 	}
+
+	*oNbCharSent = nbCharSent;
 
 	return currentStatus;
 }

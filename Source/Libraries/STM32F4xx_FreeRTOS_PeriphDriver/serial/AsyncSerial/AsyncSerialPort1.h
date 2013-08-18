@@ -54,6 +54,11 @@ private:
 
 public:
 	/* Instance getter */
+
+	/* This methode give access to the asynchrone serial port 1 object. If the
+	 * object doesn't already exist, it is created. After this call, the port
+	 * onbject is not initialized.
+	 */
 	static AsyncSerialPort1 *getInstance(void);
 
 	/* Serial port initializer */
@@ -78,7 +83,7 @@ public:
 
 	/* Port writing methods */
 	SerialStatus putChar(const int8_t iCharacter, portTickType iBlockTime);
-	SerialStatus putString(const int8_t * const iString, uint8_t iLength);
+	SerialStatus putString(const int8_t * const iString, uint32_t *oNbCharSent);
 
 	/* Semaphore method */
 
