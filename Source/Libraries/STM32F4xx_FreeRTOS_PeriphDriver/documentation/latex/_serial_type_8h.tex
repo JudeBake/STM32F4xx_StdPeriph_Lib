@@ -1,0 +1,180 @@
+\hypertarget{_serial_type_8h}{\section{\-Serial\-Type.\-h \-File \-Reference}
+\label{_serial_type_8h}\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}}
+}
+
+
+\-This file contains every enum used to configure and control serial ports.  
+
+
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}{\-Parity} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-\_\-\-P\-A\-R\-I\-T\-Y}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-O\-D\-D\-\_\-\-P\-A\-R\-I\-T\-Y}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-E\-V\-E\-N\-\_\-\-P\-A\-R\-I\-T\-Y}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The parity setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\-Stop\-Bits} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-1\-\_\-\-S\-T\-O\-P\-\_\-\-B\-I\-T}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-2\-\_\-\-S\-T\-O\-P\-\_\-\-B\-I\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The \-Stop bit(s) setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}{\-Data\-Bits} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-8\-\_\-\-B\-I\-T\-S\-\_\-\-D\-A\-T\-A}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-9\-\_\-\-B\-I\-T\-S\-\_\-\-D\-A\-T\-A}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The length of the data word setting in bits for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\-Hw\-Flow\-Ctrl} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-R\-T\-S}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-C\-T\-S}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-R\-T\-S\-\_\-\-C\-T\-S}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The hardware flow control setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}{\-Link\-Mode} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-S\-I\-M\-P\-L\-E\-X\-\_\-\-R\-X}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-S\-I\-M\-P\-L\-E\-X\-\_\-\-T\-X}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-H\-A\-L\-F\-\_\-\-D\-U\-P\-L\-E\-X}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-F\-U\-L\-L\-\_\-\-D\-U\-P\-L\-E\-X}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The link mode setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}{\-Baud\-Rate} \{ \*
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-1200\-\_\-\-B\-A\-U\-D} =  1200, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-2400\-\_\-\-B\-A\-U\-D} =  2400, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-9600\-\_\-\-B\-A\-U\-D} =  9600, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-19200\-\_\-\-B\-A\-U\-D} =  19200, 
+\*
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-38400\-\_\-\-B\-A\-U\-D} =  38400, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-57600\-\_\-\-B\-A\-U\-D} =  57600, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-115200\-\_\-\-B\-A\-U\-D} =  115200
+ \}
+\begin{DoxyCompactList}\small\item\em \-The baud rate setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}{\-Interrupt\-Setting} \{ {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-T\-\_\-\-D\-I\-S\-A\-B\-L\-E} =  0, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-T\-\_\-\-E\-N\-A\-B\-L\-E} =  1
+ \}
+\begin{DoxyCompactList}\small\item\em \-The interrupt setting for a given port. \end{DoxyCompactList}\item 
+enum \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \{ \*
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-I\-T\-\_\-\-E\-R\-R\-O\-R}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-O\-V\-E\-R\-R\-U\-N\-\_\-\-E\-R\-R\-O\-R}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-I\-S\-E\-\_\-\-E\-R\-R\-O\-R}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-F\-R\-A\-M\-I\-N\-G\-\_\-\-E\-R\-R\-O\-R}, 
+\*
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-P\-A\-R\-I\-T\-Y\-\_\-\-E\-R\-R\-O\-R}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-F\-U\-L\-L}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-E\-M\-P\-T\-Y}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-O\-K}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The current possible status for a given port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-This file contains every enum used to configure and control serial ports. \begin{DoxyDate}{\-Date}
+\-May 1, 2013 
+\end{DoxyDate}
+\begin{DoxyAuthor}{\-Author}
+julien 
+\end{DoxyAuthor}
+
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Baud\-Rate@{\-Baud\-Rate}}
+\index{\-Baud\-Rate@{\-Baud\-Rate}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Baud\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Baud\-Rate}}}\label{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}
+
+
+\-The baud rate setting for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-1200\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-2400\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-9600\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-19200\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-38400\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-57600\-\_\-\-B\-A\-U\-D
+\item \-S\-E\-R\-I\-A\-L\-\_\-115200\-\_\-\-B\-A\-U\-D 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Data\-Bits@{\-Data\-Bits}}
+\index{\-Data\-Bits@{\-Data\-Bits}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Data\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Data\-Bits}}}\label{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}
+
+
+\-The length of the data word setting in bits for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-8\-\_\-\-B\-I\-T\-S
+\item \-S\-E\-R\-I\-A\-L\-\_\-9\-\_\-\-B\-I\-T\-S 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Hw\-Flow\-Ctrl@{\-Hw\-Flow\-Ctrl}}
+\index{\-Hw\-Flow\-Ctrl@{\-Hw\-Flow\-Ctrl}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Hw\-Flow\-Ctrl}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Hw\-Flow\-Ctrl}}}\label{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}
+
+
+\-The hardware flow control setting for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-R\-T\-S
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-C\-T\-S
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-H\-W\-\_\-\-F\-L\-O\-W\-\_\-\-C\-T\-R\-L\-\_\-\-R\-T\-S\-\_\-\-C\-T\-S 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Interrupt\-Setting@{\-Interrupt\-Setting}}
+\index{\-Interrupt\-Setting@{\-Interrupt\-Setting}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Interrupt\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Interrupt\-Setting}}}\label{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}
+
+
+\-The interrupt setting for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-T\-\_\-\-D\-I\-S\-E\-A\-B\-L\-E
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-T\-\_\-\-E\-N\-A\-B\-L\-E 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Link\-Mode@{\-Link\-Mode}}
+\index{\-Link\-Mode@{\-Link\-Mode}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Link\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Link\-Mode}}}\label{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}
+
+
+\-The link mode setting for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-S\-I\-M\-P\-L\-E\-X\-\_\-\-R\-X
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-S\-I\-M\-P\-L\-E\-X\-\_\-\-T\-X
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-H\-A\-L\-F\-\_\-\-D\-U\-P\-L\-E\-X
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-F\-U\-L\-L\-\_\-\-D\-U\-P\-L\-E\-X 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Parity@{\-Parity}}
+\index{\-Parity@{\-Parity}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Parity}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Parity}}}\label{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}
+
+
+\-The parity setting for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-\_\-\-P\-A\-R\-I\-T\-Y
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-D\-D\-\_\-\-P\-A\-R\-I\-T\-Y
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-E\-V\-E\-N\-\_\-\-P\-A\-R\-I\-T\-Y 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Serial\-Status@{\-Serial\-Status}}
+\index{\-Serial\-Status@{\-Serial\-Status}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Serial\-Status}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Serial\-Status}}}\label{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}
+
+
+\-The current possible status for a given port. 
+
+\-The choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-I\-T\-\_\-\-E\-R\-R\-O\-R,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-V\-E\-R\-R\-U\-N\-\_\-\-E\-R\-R\-O\-R,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-I\-S\-E\-\_\-\-E\-R\-R\-O\-R,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-F\-R\-A\-M\-I\-N\-G\-\_\-\-E\-R\-R\-O\-R,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-P\-A\-R\-I\-T\-Y\-\_\-\-E\-R\-R\-O\-R,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-F\-U\-L\-L,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-E\-M\-P\-T\-Y,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-K 
+\end{DoxyItemize}\hypertarget{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Stop\-Bits@{\-Stop\-Bits}}
+\index{\-Stop\-Bits@{\-Stop\-Bits}!SerialType.h@{\-Serial\-Type.\-h}}
+\subsubsection[{\-Stop\-Bits}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Stop\-Bits}}}\label{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}
+
+
+\-The \-Stop bit(s) setting for a given port. 
+
+\-The \-Choices are\-:
+\begin{DoxyItemize}
+\item \-S\-E\-R\-I\-A\-L\-\_\-1\-\_\-\-S\-T\-O\-P\-\_\-\-B\-I\-T
+\item \-S\-E\-R\-I\-A\-L\-\_\-2\-\_\-\-S\-T\-O\-P\-\_\-\-B\-I\-T 
+\end{DoxyItemize}
