@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>STM32F4xxx_FreeRTOS_PeriphLib: AsyncSerialPort1.h File Reference</title>
+<title>STM32F4xxx_FreeRTOS_PeriphLib: SerialPortConf.h File Reference</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -76,49 +76,60 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Defines</a>  </div>
   <div class="headertitle">
-<div class="title">AsyncSerialPort1.h File Reference</div>  </div>
+<div class="title">SerialPortConf.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Singleton of the asynchronous port 1.  
+<p>This file is used to configure the serial ports of the system.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;CQueue.h&quot;</code><br/>
-<code>#include &quot;CMutex.h&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_serial_type_8h_source.html">SerialType.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="_async_serial_port1_8h_source.html">AsyncSerialPort1.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for AsyncSerialPort1.h:</div>
+Include dependency graph for SerialPortConf.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="_async_serial_port1_8h__incl.png" border="0" usemap="#_async_serial_port1_8h" alt=""/></div>
-<map name="_async_serial_port1_8h" id="_async_serial_port1_8h">
-<area shape="rect" id="node7" href="_serial_type_8h.html" title="This file contains every enum used to configure and control serial ports." alt="" coords="211,83,304,112"/></map>
+<div class="center"><img src="_serial_port_conf_8h__incl.png" border="0" usemap="#_serial_port_conf_8h" alt=""/></div>
+<map name="_serial_port_conf_8h" id="_serial_port_conf_8h">
+<area shape="rect" id="node3" href="_async_serial_port1_8h.html" title="Singleton of the asynchronous port 1." alt="" coords="81,83,215,112"/><area shape="rect" id="node9" href="_serial_type_8h.html" title="This file contains every enum used to configure and control serial ports." alt="" coords="211,160,304,189"/></map>
 </div>
 </div>
-<p><a href="_async_serial_port1_8h_source.html">Go to the source code of this file.</a></p>
+<p><a href="_serial_port_conf_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Singleton of the asynchronous port 1.  <a href="class_async_serial_port1.html#details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="define-members"></a>
 Defines</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4cbed98ec5d1540f6d4b14119c898898"></a><!-- doxytag: member="AsyncSerialPort1.h::SERIAL_PORT1_BUFFERS_LENGTH" ref="a4cbed98ec5d1540f6d4b14119c898898" args="" -->
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_async_serial_port1_8h.html#a4cbed98ec5d1540f6d4b14119c898898">SERIAL_PORT1_BUFFERS_LENGTH</a>&#160;&#160;&#160;100</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of the Rx/Tx buffers of the port. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa87d1c0333d6d64b53de8fc6579f0eff"></a><!-- doxytag: member="AsyncSerialPort1.h::SERIAL_PORT1_PREEMP_PRIORITY" ref="aa87d1c0333d6d64b53de8fc6579f0eff" args="" -->
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_async_serial_port1_8h.html#aa87d1c0333d6d64b53de8fc6579f0eff">SERIAL_PORT1_PREEMP_PRIORITY</a>&#160;&#160;&#160;15</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The preemptive priority of the port. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af64b785c8f7db644f1f0e2b02ce73e2c"></a><!-- doxytag: member="AsyncSerialPort1.h::SERIAL_PORT1_SUBPRIORITY" ref="af64b785c8f7db644f1f0e2b02ce73e2c" args="" -->
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_async_serial_port1_8h.html#af64b785c8f7db644f1f0e2b02ce73e2c">SERIAL_PORT1_SUBPRIORITY</a>&#160;&#160;&#160;0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The sub-priority of the port. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_serial_port_conf_8h.html#a170df83f8f01be3b8cf40beade3cf764">ASYNC_SERIAL_PORT1</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57af9b607e8d01783d7f09af56812d83"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT2" ref="a57af9b607e8d01783d7f09af56812d83" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ASYNC_SERIAL_PORT2</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b4295c0433e69bea0d8ecbb0f8178f1"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT3" ref="a7b4295c0433e69bea0d8ecbb0f8178f1" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ASYNC_SERIAL_PORT3</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1de05e4c32973de9c5399f0bd29a8077"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT4" ref="a1de05e4c32973de9c5399f0bd29a8077" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ASYNC_SERIAL_PORT4</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a206249f1d3af0528ec1c34d4effdd0a0"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT5" ref="a206249f1d3af0528ec1c34d4effdd0a0" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ASYNC_SERIAL_PORT5</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a122a249a93bf3ecbb0e4d04e3272b3e3"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT6" ref="a122a249a93bf3ecbb0e4d04e3272b3e3" args="" -->
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ASYNC_SERIAL_PORT6</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Singleton of the asynchronous port 1. </p>
-<dl class="date"><dt><b>Date:</b></dt><dd>May 1, 2013 </dd></dl>
+<div class="textblock"><p>This file is used to configure the serial ports of the system. </p>
+<p>Comment/uncomment the lines to configure the serial ports that will be used in the project.</p>
+<dl class="date"><dt><b>Date:</b></dt><dd>May 2, 2013 </dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>julien </dd></dl>
-</div></div><!-- contents -->
+</div><hr/><h2>Define Documentation</h2>
+<a class="anchor" id="a170df83f8f01be3b8cf40beade3cf764"></a><!-- doxytag: member="SerialPortConf.h::ASYNC_SERIAL_PORT1" ref="a170df83f8f01be3b8cf40beade3cf764" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="_serial_port_conf_8h.html#a170df83f8f01be3b8cf40beade3cf764">ASYNC_SERIAL_PORT1</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Use serial port 1 as asynchronous. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -136,7 +147,7 @@ Defines</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 19 2013 09:46:11 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 19 2013 08:55:50 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

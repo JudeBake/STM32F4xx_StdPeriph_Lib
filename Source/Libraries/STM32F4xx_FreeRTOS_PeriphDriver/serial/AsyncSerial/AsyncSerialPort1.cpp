@@ -5,7 +5,7 @@
  * \author julien
  */
 
-#include "SystemPeriphConf.h"
+#include "SerialPortConf.h"
 #ifdef ASYNC_SERIAL_PORT1
 
 //FreeRTOS includes
