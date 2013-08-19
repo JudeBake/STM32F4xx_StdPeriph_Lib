@@ -1,8 +1,8 @@
 /*
- * AsyncSerialPort1.cpp
+ * \file AsyncSerialPort1.cpp
  *
- *  Created on: May 1, 2013
- *      Author: julien
+ * \date May 1, 2013
+ * \author julien
  */
 
 #include "SystemPeriphConf.h"
