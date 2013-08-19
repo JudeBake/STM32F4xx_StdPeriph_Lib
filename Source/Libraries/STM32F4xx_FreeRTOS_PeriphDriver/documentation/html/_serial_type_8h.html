@@ -84,7 +84,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This file contains every enum used to configure and control serial ports.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="_serial_type_8h__dep__incl.png" border="0" usemap="#_serial_type_8hdep" alt=""/></div>
+<map name="_serial_type_8hdep" id="_serial_type_8hdep">
+<area shape="rect" id="node3" href="_async_serial_port1_8h.html" title="Singleton of the asynchronous port 1." alt="" coords="5,83,139,112"/></map>
+</div>
+</div>
 <p><a href="_serial_type_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="enum-members"></a>
@@ -139,7 +146,9 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>SERIAL_PARITY_ERROR</b>, 
 <b>SERIAL_TX_BUFFER_FULL</b>, 
 <b>SERIAL_RX_BUFFER_EMPTY</b>, 
-<b>SERIAL_OK</b>
+<b>SERIAL_BUSY</b>, 
+<br/>
+&#160;&#160;<b>SERIAL_OK</b>
 <br/>
  }</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The current possible status for a given port.  <a href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480">More...</a><br/></td></tr>
@@ -188,8 +197,8 @@ Enumerations</h2></td></tr>
 <p>The length of the data word setting in bits for a given port. </p>
 <p>The choices are:</p>
 <ul>
-<li>SERIAL_8_BITS</li>
-<li>SERIAL_9_BITS </li>
+<li>SERIAL_8_BITS_DATA</li>
+<li>SERIAL_9_BITS_DATA </li>
 </ul>
 
 </div>
@@ -293,13 +302,14 @@ Enumerations</h2></td></tr>
 <p>The current possible status for a given port. </p>
 <p>The choices are:</p>
 <ul>
-<li>SERIAL_INIT_ERROR,</li>
-<li>SERIAL_OVERRUN_ERROR,</li>
-<li>SERIAL_NOISE_ERROR,</li>
-<li>SERIAL_FRAMING_ERROR,</li>
-<li>SERIAL_PARITY_ERROR,</li>
-<li>SERIAL_TX_BUFFER_FULL,</li>
-<li>SERIAL_RX_BUFFER_EMPTY,</li>
+<li>SERIAL_INIT_ERROR</li>
+<li>SERIAL_OVERRUN_ERROR</li>
+<li>SERIAL_NOISE_ERROR</li>
+<li>SERIAL_FRAMING_ERROR</li>
+<li>SERIAL_PARITY_ERROR</li>
+<li>SERIAL_TX_BUFFER_FULL</li>
+<li>SERIAL_RX_BUFFER_EMPTY</li>
+<li>SERIAL_BUSY</li>
 <li>SERIAL_OK </li>
 </ul>
 
@@ -343,7 +353,7 @@ Enumerations</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 19 2013 00:15:18 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 19 2013 01:53:28 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

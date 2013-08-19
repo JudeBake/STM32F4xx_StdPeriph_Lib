@@ -107,7 +107,7 @@ AsyncSerialPort1 *AsyncSerialPort1::getInstance(void)
 /*
  * Serial port initializer
  */
-SerialStatus AsyncSerialPort1::usartInit(Parity iParityConf,
+SerialStatus AsyncSerialPort1::portInit(Parity iParityConf,
 		StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl,
 		LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority,
 		uint8_t iSubPriority, InterruptSetting iInterruptSetting)
@@ -307,16 +307,17 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	{
 		setNvicPort1(iPreempPriority, iSubPriority);
 		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+
 		if ((iParity == SERIAL_ODD_PARITY) || (iParity == SERIAL_EVEN_PARITY))
 		{
 			USART_ITConfig(USART1, USART_IT_PE, ENABLE);
 		}
+
 		if (iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_CTS)
 		{
 			USART_ITConfig(USART1, USART_IT_CTS, ENABLE);
 		}
 
-		//TODO: enable error interrupt
 		USART_Cmd(USART1, ENABLE);
 	}
 }
@@ -454,11 +455,11 @@ void usart1InterruptHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	portCHAR cChar;
 
-	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET)
+	if (USART_GetITStatus(USART1, USART_IT_TXE) == SET)
 	{
 		/* The interrupt was caused by the THR becoming empty.  Are there any
 			more characters to transmit? */
-		if(outStream.ReceiveFromISR(&cChar, &xHigherPriorityTaskWoken))
+		if (outStream.ReceiveFromISR(&cChar, &xHigherPriorityTaskWoken))
 		{
 			/* A character was retrieved from the queue so can be sent to the
 				THR now. */
@@ -476,14 +477,35 @@ void usart1InterruptHandler(void)
 		}
 	}
 
-	if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
 	{
 		cChar = USART_ReceiveData(USART1);
 
 		inStream.SendFromISR(&cChar, &xHigherPriorityTaskWoken);
 	}
 
-	//TODO: handling error interrupts
+	if (USART_GetITStatus(USART1, USART_IT_PE) == SET)
+	{
+		portHandle->setCurrentStatus(SERIAL_PARITY_ERROR);
+	}
+
+	if (USART_GetITStatus(USART1, USART_IT_ORE_RX) == SET)
+	{
+		portHandle->setCurrentStatus(SERIAL_OVERRUN_ERROR);
+	}
+
+	if (USART_GetITStatus(USART1, USART_IT_CTS) == SET)
+	{
+		if (GPIO_ReadInputDataBit(USART1_GPIO_PORT, USART1_CTS))
+		{
+			portHandle->setCurrentStatus(SERIAL_BUSY);
+		}
+		else
+		{
+			portHandle->setCurrentStatus(SERIAL_OK);
+		}
+	}
+
 	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken );
 }
 

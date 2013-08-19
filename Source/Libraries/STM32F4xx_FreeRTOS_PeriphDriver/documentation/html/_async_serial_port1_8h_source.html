@@ -131,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00092"></a>00092     <span class="keyword">static</span> <a class="code" href="class_async_serial_port1.html" title="Singleton of the asynchronous port 1.">AsyncSerialPort1</a>* <a class="code" href="class_async_serial_port1.html#a1c767b7bdd824c5b3fd4cdaa3dfc2081" title="This method give access to the port by returning its handle.">getInstance</a>(<span class="keywordtype">void</span>);
 <a name="l00093"></a>00093 
 <a name="l00094"></a>00094     <span class="comment">/* Serial port initializer */</span>
-<a name="l00108"></a>00108     <a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480" title="The current possible status for a given port.">SerialStatus</a> <a class="code" href="class_async_serial_port1.html#a3f62abb242f09bb35524d31996c88320" title="This method initialize the port according to the desired settings.">usartInit</a>(<a class="code" href="_serial_type_8h.html#ac47b2bd906d2c843b97ecae6c1eea710" title="The parity setting for a given port.">Parity</a> iParityConf, <a class="code" href="_serial_type_8h.html#a2e4c31ec0a94db405865b7c241717fbe" title="The Stop bit(s) setting for a given port.">StopBits</a> iStopBitConf,
+<a name="l00108"></a>00108     <a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480" title="The current possible status for a given port.">SerialStatus</a> <a class="code" href="class_async_serial_port1.html#a25a461dcd724608e7b014d5d14127b0b" title="This method initialize the port according to the desired settings.">portInit</a>(<a class="code" href="_serial_type_8h.html#ac47b2bd906d2c843b97ecae6c1eea710" title="The parity setting for a given port.">Parity</a> iParityConf, <a class="code" href="_serial_type_8h.html#a2e4c31ec0a94db405865b7c241717fbe" title="The Stop bit(s) setting for a given port.">StopBits</a> iStopBitConf,
 <a name="l00109"></a>00109             <a class="code" href="_serial_type_8h.html#a11275f46707b20c44d7b07eb6ca04baf" title="The length of the data word setting in bits for a given port.">DataBits</a> iDataLengthConf, <a class="code" href="_serial_type_8h.html#a0ed0ee4a49d7dcf4109ba39a3ca1a8b7" title="The hardware flow control setting for a given port.">HwFlowCtrl</a> iHwFlowCtrl,
 <a name="l00110"></a>00110             <a class="code" href="_serial_type_8h.html#a30da35a35e2d0882c738f6f991905df7" title="The link mode setting for a given port.">LinkMode</a> iLinkMode, <a class="code" href="_serial_type_8h.html#a7654bd82719bfde1c792d7828664dde2" title="The baud rate setting for a given port.">BaudRate</a> iBaudRateConf,
 <a name="l00111"></a>00111             uint8_t iPreempPriority, uint8_t iSubPriority,
@@ -184,7 +184,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 19 2013 00:15:18 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 19 2013 01:53:28 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

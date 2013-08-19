@@ -6,6 +6,13 @@
 \-This file contains every enum used to configure and control serial ports.  
 
 
+\-This graph shows which files directly or indirectly include this file\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{_serial_type_8h__dep__incl}
+\end{center}
+\end{figure}
 \subsection*{\-Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,6 +65,8 @@ enum \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Sta
 {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-P\-A\-R\-I\-T\-Y\-\_\-\-E\-R\-R\-O\-R}, 
 {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-F\-U\-L\-L}, 
 {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-E\-M\-P\-T\-Y}, 
+{\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-B\-U\-S\-Y}, 
+\*
 {\bfseries \-S\-E\-R\-I\-A\-L\-\_\-\-O\-K}
  \}
 \begin{DoxyCompactList}\small\item\em \-The current possible status for a given port. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -98,8 +107,8 @@ julien
 
 \-The choices are\-:
 \begin{DoxyItemize}
-\item \-S\-E\-R\-I\-A\-L\-\_\-8\-\_\-\-B\-I\-T\-S
-\item \-S\-E\-R\-I\-A\-L\-\_\-9\-\_\-\-B\-I\-T\-S 
+\item \-S\-E\-R\-I\-A\-L\-\_\-8\-\_\-\-B\-I\-T\-S\-\_\-\-D\-A\-T\-A
+\item \-S\-E\-R\-I\-A\-L\-\_\-9\-\_\-\-B\-I\-T\-S\-\_\-\-D\-A\-T\-A 
 \end{DoxyItemize}\hypertarget{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Hw\-Flow\-Ctrl@{\-Hw\-Flow\-Ctrl}}
 \index{\-Hw\-Flow\-Ctrl@{\-Hw\-Flow\-Ctrl}!SerialType.h@{\-Serial\-Type.\-h}}
 \subsubsection[{\-Hw\-Flow\-Ctrl}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf \-Hw\-Flow\-Ctrl}}}\label{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}
@@ -158,13 +167,14 @@ julien
 
 \-The choices are\-:
 \begin{DoxyItemize}
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-I\-T\-\_\-\-E\-R\-R\-O\-R,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-V\-E\-R\-R\-U\-N\-\_\-\-E\-R\-R\-O\-R,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-I\-S\-E\-\_\-\-E\-R\-R\-O\-R,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-F\-R\-A\-M\-I\-N\-G\-\_\-\-E\-R\-R\-O\-R,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-P\-A\-R\-I\-T\-Y\-\_\-\-E\-R\-R\-O\-R,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-F\-U\-L\-L,
-\item \-S\-E\-R\-I\-A\-L\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-E\-M\-P\-T\-Y,
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-I\-N\-I\-T\-\_\-\-E\-R\-R\-O\-R
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-V\-E\-R\-R\-U\-N\-\_\-\-E\-R\-R\-O\-R
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-N\-O\-I\-S\-E\-\_\-\-E\-R\-R\-O\-R
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-F\-R\-A\-M\-I\-N\-G\-\_\-\-E\-R\-R\-O\-R
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-P\-A\-R\-I\-T\-Y\-\_\-\-E\-R\-R\-O\-R
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-T\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-F\-U\-L\-L
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-R\-X\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-E\-M\-P\-T\-Y
+\item \-S\-E\-R\-I\-A\-L\-\_\-\-B\-U\-S\-Y
 \item \-S\-E\-R\-I\-A\-L\-\_\-\-O\-K 
 \end{DoxyItemize}\hypertarget{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\index{\-Serial\-Type.\-h@{\-Serial\-Type.\-h}!\-Stop\-Bits@{\-Stop\-Bits}}
 \index{\-Stop\-Bits@{\-Stop\-Bits}!SerialType.h@{\-Serial\-Type.\-h}}

@@ -45,8 +45,8 @@ typedef enum
  * \brief The length of the data word setting in bits for a given port.
  *
  * The choices are:
- * - SERIAL_8_BITS
- * - SERIAL_9_BITS
+ * - SERIAL_8_BITS_DATA
+ * - SERIAL_9_BITS_DATA
  */
 typedef enum
 {
@@ -133,13 +133,14 @@ typedef enum
  * \brief The current possible status for a given port
  *
  * The choices are:
- * - SERIAL_INIT_ERROR,
- * - SERIAL_OVERRUN_ERROR,
- * - SERIAL_NOISE_ERROR,
- * - SERIAL_FRAMING_ERROR,
- * - SERIAL_PARITY_ERROR,
- * - SERIAL_TX_BUFFER_FULL,
- * - SERIAL_RX_BUFFER_EMPTY,
+ * - SERIAL_INIT_ERROR
+ * - SERIAL_OVERRUN_ERROR
+ * - SERIAL_NOISE_ERROR
+ * - SERIAL_FRAMING_ERROR
+ * - SERIAL_PARITY_ERROR
+ * - SERIAL_TX_BUFFER_FULL
+ * - SERIAL_RX_BUFFER_EMPTY
+ * - SERIAL_BUSY
  * - SERIAL_OK
  */
 typedef enum
@@ -151,6 +152,7 @@ typedef enum
 	SERIAL_PARITY_ERROR,
 	SERIAL_TX_BUFFER_FULL,
 	SERIAL_RX_BUFFER_EMPTY,
+	SERIAL_BUSY,
 	SERIAL_OK
 } SerialStatus;
 

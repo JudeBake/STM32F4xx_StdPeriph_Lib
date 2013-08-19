@@ -135,20 +135,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00128"></a>00128     SERIAL_INT_ENABLE = 1
 <a name="l00129"></a>00129 } <a class="code" href="_serial_type_8h.html#ad8005790f3b92862aa09c52f14f58e24" title="The interrupt setting for a given port.">InterruptSetting</a>;
 <a name="l00130"></a>00130 
-<a name="l00145"></a><a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480">00145</a> <span class="keyword">typedef</span> <span class="keyword">enum</span>
-<a name="l00146"></a>00146 {
-<a name="l00147"></a>00147     SERIAL_INIT_ERROR,
-<a name="l00148"></a>00148     SERIAL_OVERRUN_ERROR,
-<a name="l00149"></a>00149     SERIAL_NOISE_ERROR,
-<a name="l00150"></a>00150     SERIAL_FRAMING_ERROR,
-<a name="l00151"></a>00151     SERIAL_PARITY_ERROR,
-<a name="l00152"></a>00152     SERIAL_TX_BUFFER_FULL,
-<a name="l00153"></a>00153     SERIAL_RX_BUFFER_EMPTY,
-<a name="l00154"></a>00154     SERIAL_OK
-<a name="l00155"></a>00155 } <a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480" title="The current possible status for a given port.">SerialStatus</a>;
-<a name="l00156"></a>00156 
-<a name="l00157"></a>00157 
-<a name="l00158"></a>00158 <span class="preprocessor">#endif </span><span class="comment">/* SERIALTYPE_H_ */</span>
+<a name="l00146"></a><a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480">00146</a> <span class="keyword">typedef</span> <span class="keyword">enum</span>
+<a name="l00147"></a>00147 {
+<a name="l00148"></a>00148     SERIAL_INIT_ERROR,
+<a name="l00149"></a>00149     SERIAL_OVERRUN_ERROR,
+<a name="l00150"></a>00150     SERIAL_NOISE_ERROR,
+<a name="l00151"></a>00151     SERIAL_FRAMING_ERROR,
+<a name="l00152"></a>00152     SERIAL_PARITY_ERROR,
+<a name="l00153"></a>00153     SERIAL_TX_BUFFER_FULL,
+<a name="l00154"></a>00154     SERIAL_RX_BUFFER_EMPTY,
+<a name="l00155"></a>00155     SERIAL_BUSY,
+<a name="l00156"></a>00156     SERIAL_OK
+<a name="l00157"></a>00157 } <a class="code" href="_serial_type_8h.html#a71c113451bfafdaf5fcabcd807acd480" title="The current possible status for a given port.">SerialStatus</a>;
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 <span class="preprocessor">#endif </span><span class="comment">/* SERIALTYPE_H_ */</span>
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -167,7 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 19 2013 00:15:18 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 19 2013 01:53:28 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

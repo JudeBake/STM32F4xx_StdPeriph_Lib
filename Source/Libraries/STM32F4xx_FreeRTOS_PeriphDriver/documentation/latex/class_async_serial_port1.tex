@@ -10,10 +10,19 @@
 
 {\ttfamily \#include $<$\-Async\-Serial\-Port1.\-h$>$}
 
+
+
+\-Collaboration diagram for \-Async\-Serial\-Port1\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=241pt]{class_async_serial_port1__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{\-Public \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_a3f62abb242f09bb35524d31996c88320}{usart\-Init} (\hyperlink{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}{\-Parity} i\-Parity\-Conf, \hyperlink{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\-Stop\-Bits} i\-Stop\-Bit\-Conf, \hyperlink{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}{\-Data\-Bits} i\-Data\-Length\-Conf, \hyperlink{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\-Hw\-Flow\-Ctrl} i\-Hw\-Flow\-Ctrl, \hyperlink{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}{\-Link\-Mode} i\-Link\-Mode, \hyperlink{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}{\-Baud\-Rate} i\-Baud\-Rate\-Conf, uint8\-\_\-t i\-Preemp\-Priority, uint8\-\_\-t i\-Sub\-Priority, \hyperlink{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}{\-Interrupt\-Setting} i\-Interrupt\-Setting)
+\hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_a25a461dcd724608e7b014d5d14127b0b}{port\-Init} (\hyperlink{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}{\-Parity} i\-Parity\-Conf, \hyperlink{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\-Stop\-Bits} i\-Stop\-Bit\-Conf, \hyperlink{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}{\-Data\-Bits} i\-Data\-Length\-Conf, \hyperlink{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\-Hw\-Flow\-Ctrl} i\-Hw\-Flow\-Ctrl, \hyperlink{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}{\-Link\-Mode} i\-Link\-Mode, \hyperlink{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}{\-Baud\-Rate} i\-Baud\-Rate\-Conf, uint8\-\_\-t i\-Preemp\-Priority, uint8\-\_\-t i\-Sub\-Priority, \hyperlink{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}{\-Interrupt\-Setting} i\-Interrupt\-Setting)
 \begin{DoxyCompactList}\small\item\em \-This method initialize the port according to the desired settings. \end{DoxyCompactList}\item 
 \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_ae5c7825b0eb62d17f937e1db43bd72ab}{get\-Current\-Status} (void)
 \begin{DoxyCompactList}\small\item\em \-This method enable the user to interrogate the port for its current status. \end{DoxyCompactList}\item 
@@ -143,6 +152,46 @@ julien
 \begin{DoxyReturn}{\-Returns}
 1 if the mutex was given, 0 otherwise. 
 \end{DoxyReturn}
+\hypertarget{class_async_serial_port1_a25a461dcd724608e7b014d5d14127b0b}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!port\-Init@{port\-Init}}
+\index{port\-Init@{port\-Init}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
+\subsubsection[{port\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Status} {\bf \-Async\-Serial\-Port1\-::port\-Init} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Parity}}]{i\-Parity\-Conf, }
+\item[{{\bf \-Stop\-Bits}}]{i\-Stop\-Bit\-Conf, }
+\item[{{\bf \-Data\-Bits}}]{i\-Data\-Length\-Conf, }
+\item[{{\bf \-Hw\-Flow\-Ctrl}}]{i\-Hw\-Flow\-Ctrl, }
+\item[{{\bf \-Link\-Mode}}]{i\-Link\-Mode, }
+\item[{{\bf \-Baud\-Rate}}]{i\-Baud\-Rate\-Conf, }
+\item[{uint8\-\_\-t}]{i\-Preemp\-Priority, }
+\item[{uint8\-\_\-t}]{i\-Sub\-Priority, }
+\item[{{\bf \-Interrupt\-Setting}}]{i\-Interrupt\-Setting}
+\end{DoxyParamCaption}
+)}}\label{class_async_serial_port1_a25a461dcd724608e7b014d5d14127b0b}
+
+
+\-This method initialize the port according to the desired settings. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em i\-Parity\-Conf} & \-The parity configuration of the port. \\
+\hline
+{\em i\-Stop\-Bit\-Conf} & \-The stop bit configuration of the port. \\
+\hline
+{\em i\-Data\-Length\-Conf} & \-The length of the word used by the port. \\
+\hline
+{\em i\-Hw\-Flow\-Ctrl} & \-The hardware flow control configuration of the port. \\
+\hline
+{\em i\-Link\-Mode} & \-The type of link of the port. \\
+\hline
+{\em i\-Baud\-Rate\-Conf} & \-The baud rate of the port. \\
+\hline
+{\em i\-Preemp\-Priority} & \-The preemptive priority of the port. \\
+\hline
+{\em i\-Sub\-Priority} & \-The sub-\/priority of the port. \\
+\hline
+{\em i\-Interrupt\-Setting} & \-If the interrupt should be enabled or disabled. \\
+\hline
+\end{DoxyParams}
 \hypertarget{class_async_serial_port1_a414bdbd17f686e2a31f8109d4492b595}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!put\-Char@{put\-Char}}
 \index{put\-Char@{put\-Char}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
 \subsubsection[{put\-Char}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Status} {\bf \-Async\-Serial\-Port1\-::put\-Char} (
@@ -210,46 +259,6 @@ julien
 \begin{DoxyReturn}{\-Returns}
 1 if the mutex was taken, 0 otherwise. 
 \end{DoxyReturn}
-\hypertarget{class_async_serial_port1_a3f62abb242f09bb35524d31996c88320}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!usart\-Init@{usart\-Init}}
-\index{usart\-Init@{usart\-Init}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
-\subsubsection[{usart\-Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Status} {\bf \-Async\-Serial\-Port1\-::usart\-Init} (
-\begin{DoxyParamCaption}
-\item[{{\bf \-Parity}}]{i\-Parity\-Conf, }
-\item[{{\bf \-Stop\-Bits}}]{i\-Stop\-Bit\-Conf, }
-\item[{{\bf \-Data\-Bits}}]{i\-Data\-Length\-Conf, }
-\item[{{\bf \-Hw\-Flow\-Ctrl}}]{i\-Hw\-Flow\-Ctrl, }
-\item[{{\bf \-Link\-Mode}}]{i\-Link\-Mode, }
-\item[{{\bf \-Baud\-Rate}}]{i\-Baud\-Rate\-Conf, }
-\item[{uint8\-\_\-t}]{i\-Preemp\-Priority, }
-\item[{uint8\-\_\-t}]{i\-Sub\-Priority, }
-\item[{{\bf \-Interrupt\-Setting}}]{i\-Interrupt\-Setting}
-\end{DoxyParamCaption}
-)}}\label{class_async_serial_port1_a3f62abb242f09bb35524d31996c88320}
-
-
-\-This method initialize the port according to the desired settings. 
-
-
-\begin{DoxyParams}{\-Parameters}
-{\em i\-Parity\-Conf} & \-The parity configuration of the port. \\
-\hline
-{\em i\-Stop\-Bit\-Conf} & \-The stop bit configuration of the port. \\
-\hline
-{\em i\-Data\-Length\-Conf} & \-The length of the word used by the port. \\
-\hline
-{\em i\-Hw\-Flow\-Ctrl} & \-The hardware flow control configuration of the port. \\
-\hline
-{\em i\-Link\-Mode} & \-The type of link of the port. \\
-\hline
-{\em i\-Baud\-Rate\-Conf} & \-The baud rate of the port. \\
-\hline
-{\em i\-Preemp\-Priority} & \-The preemptive priority of the port. \\
-\hline
-{\em i\-Sub\-Priority} & \-The sub-\/priority of the port. \\
-\hline
-{\em i\-Interrupt\-Setting} & \-If the interrupt should be enabled or disabled. \\
-\hline
-\end{DoxyParams}
 
 
 \subsection{\-Member \-Data \-Documentation}

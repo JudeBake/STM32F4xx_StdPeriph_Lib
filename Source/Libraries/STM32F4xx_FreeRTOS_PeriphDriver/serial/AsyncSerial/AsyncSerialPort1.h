@@ -105,7 +105,7 @@ public:
 	 * \param iSubPriority The sub-priority of the port.
 	 * \param iInterruptSetting If the interrupt should be enabled or disabled.
 	 */
-	SerialStatus usartInit(Parity iParityConf, StopBits iStopBitConf,
+	SerialStatus portInit(Parity iParityConf, StopBits iStopBitConf,
 			DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl,
 			LinkMode iLinkMode, BaudRate iBaudRateConf,
 			uint8_t iPreempPriority, uint8_t iSubPriority,
