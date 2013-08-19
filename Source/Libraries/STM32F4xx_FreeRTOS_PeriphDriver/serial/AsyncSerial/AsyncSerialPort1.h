@@ -10,6 +10,7 @@
 #define ASYNCSERIAL1_H_
 
 #include "CQueue.h"
+#include "CMutex.h"
 #include "SerialType.h"
 
 /**
@@ -36,7 +37,9 @@
  *
  * This class is the second level driver of the serial port 1 in asynchronous
  * mode. It uses the CQueue framework of the FreeRTOS and FreeRTOS C++ wrapper
- * as Rx/Tx buffers.
+ * as Rx/Tx buffers. It uses the CMutex framework of the FreeRTOS and FreeRTOS
+ * C++ wrapper to ensures that the port will not be used by more than one task
+ * at the time.
  *
  * \date May 1, 2013
  * \author julien
@@ -45,7 +48,7 @@ class AsyncSerialPort1
 {
 public:
 	/* Port handle */
-	static AsyncSerialPort1 *portHandle; /**<Handle of the port. */
+	static AsyncSerialPort1* portHandle; /**<Handle of the port. */
 
 private:
 	/* Port configuration */
@@ -63,6 +66,9 @@ private:
 	/* Data stream Queues */
 	CQueue dataStreamIn;
 	CQueue dataStreamOut;
+
+	/* Port Mutex */
+	CMutex portMutex;
 
 	/* Constructors */
 	AsyncSerialPort1(void);
@@ -112,7 +118,7 @@ public:
 	 *
 	 * \return The port current status.
 	 */
-	SerialStatus getCurrentStatus();
+	SerialStatus getCurrentStatus(void);
 
 	/* Current status setter ***USED ONLY IN INTERRUPT HANDLER*** */
 	/**
@@ -124,12 +130,12 @@ public:
 	/**
 	 * \brief ***This method is USED ONLY BY THE INTERRUPT HANDLER***
 	 */
-	CQueue &getOutStream();
+	CQueue& getOutStream(void);
 
 	/**
 	 * \brief ***This method is USED ONLY BY THE INTERRUPT HANDLER***
 	 */
-	CQueue &getInStream();
+	CQueue& getInStream(void);
 
 	/* Port reading method */
 	/**
@@ -175,7 +181,23 @@ public:
 	 */
 	SerialStatus putString(const int8_t* const iString, uint32_t* oNbCharSent);
 
-	/* Semaphore method */
+	/* Mutex method */
+	/**
+	 * \brief This method enables to take the mutex of the port.
+	 *
+	 * \param iBlockTime The time the port will block tasks until the mutex is
+	 * 					 freed.
+	 *
+	 * \return 1 if the mutex was taken, 0 otherwise.
+	 */
+	portBASE_TYPE takeMutex(portTickType iBlockTime);
+
+	/**
+	 * \brief This method enables to give the mutex of the port.
+	 *
+	 * \return 1 if the mutex was given, 0 otherwise.
+	 */
+	portBASE_TYPE giveMutex(void);
 
 	/* Closing port method */
 	/**

@@ -10,7 +10,6 @@
 
 //FreeRTOS includes
 #include "CFreeRTOS.h"
-#include "CMutex.h"
 
 //STM includes
 #include "stm32f4xx.h"
@@ -45,15 +44,15 @@ void setParityPort1(USART_InitTypeDef& iUsartInitStruct, Parity iParity);
 void setStopBitPort1(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit);
 void setWordlengthPort1(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength);
 void setLinkModePort1(GPIO_InitTypeDef& iGpioInitStruct,
-		USART_InitTypeDef &iUsartInitStruct, LinkMode iLinkMode);
-void setHwFlowCtrlPort1(GPIO_InitTypeDef &iGpioInitStruct,
-		USART_InitTypeDef &iUsartInitStruct, HwFlowCtrl iHwFlowCtrl);
+		USART_InitTypeDef& iUsartInitStruct, LinkMode iLinkMode);
+void setHwFlowCtrlPort1(GPIO_InitTypeDef& iGpioInitStruct,
+		USART_InitTypeDef& iUsartInitStruct, HwFlowCtrl iHwFlowCtrl);
 void setNvicPort1(uint8_t iPreempPriority, uint8_t iSubPriority);
 
 /*
  * Constructors
  */
-AsyncSerialPort1::AsyncSerialPort1()
+AsyncSerialPort1::AsyncSerialPort1(void)
 {
 	currentStatus = SERIAL_INIT_ERROR;
 	parity = SERIAL_NO_PARITY;
@@ -68,9 +67,11 @@ AsyncSerialPort1::AsyncSerialPort1()
 
 	dataStreamIn.Create(SERIAL_PORT1_BUFFERS_LENGTH, sizeof(uint8_t));
 	dataStreamOut.Create(SERIAL_PORT1_BUFFERS_LENGTH, sizeof(uint8_t));
+
+	portMutex.Create();
 }
 
-AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
+AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1&)
 {
 	//just to shut down warning
 	currentStatus = SERIAL_INIT_ERROR;
@@ -85,7 +86,7 @@ AsyncSerialPort1::AsyncSerialPort1(const AsyncSerialPort1 &)
 	interruptSetting = SERIAL_INT_DISABLE;
 }
 
-void AsyncSerialPort1::operator=(const AsyncSerialPort1 &)
+void AsyncSerialPort1::operator=(const AsyncSerialPort1&)
 {
 
 }
@@ -123,10 +124,8 @@ SerialStatus AsyncSerialPort1::usartInit(Parity iParityConf,
 	subPriority = iSubPriority;
 	interruptSetting = iInterruptSetting;
 
-	dataStreamIn.Create(SERIAL_PORT1_BUFFERS_LENGTH, sizeof(uint8_t));
-	dataStreamOut.Create(SERIAL_PORT1_BUFFERS_LENGTH, sizeof(uint8_t));
-
-	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()))
+	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()) &&
+			(portMutex.IsValid()))
 	{
 		initPort1(parity, stopBits, dataBits, hwFlowCtrl, linkMode, baudRate,
 				preempPriority, subPriority, interruptSetting);
@@ -142,7 +141,7 @@ SerialStatus AsyncSerialPort1::usartInit(Parity iParityConf,
 /*
  * Current status getter
  */
-SerialStatus AsyncSerialPort1::getCurrentStatus()
+SerialStatus AsyncSerialPort1::getCurrentStatus(void)
 {
 	return currentStatus;
 }
@@ -159,12 +158,12 @@ void AsyncSerialPort1::setCurrentStatus(SerialStatus iStatus)
  * Stream getters
  * ***USED ONLY IN INTERRUPT HANDLER***
  */
-CQueue &AsyncSerialPort1::getOutStream()
+CQueue& AsyncSerialPort1::getOutStream(void)
 {
 	return dataStreamOut;
 }
 
-CQueue &AsyncSerialPort1::getInStream()
+CQueue& AsyncSerialPort1::getInStream(void)
 {
 	return dataStreamIn;
 }
@@ -172,7 +171,7 @@ CQueue &AsyncSerialPort1::getInStream()
 /*
  * Port reading method
  */
-SerialStatus AsyncSerialPort1::getChar(const int8_t *oCharacter,
+SerialStatus AsyncSerialPort1::getChar(const int8_t* oCharacter,
 		portTickType iBlockTime)
 {
 	SerialStatus oReturn;
@@ -210,10 +209,10 @@ SerialStatus AsyncSerialPort1::putChar(const int8_t iCharacter,
 	return currentStatus;
 }
 
-SerialStatus AsyncSerialPort1::putString(const int8_t *const iString,
-		uint32_t *oNbCharSent)
+SerialStatus AsyncSerialPort1::putString(const int8_t* const iString,
+		uint32_t* oNbCharSent)
 {
-	int8_t *nextChar = (int8_t *)iString;
+	int8_t* nextChar = (int8_t*)iString;
 	uint32_t nbCharSent = 0;
 
 	while (*nextChar && (currentStatus == SERIAL_OK))
@@ -232,6 +231,18 @@ SerialStatus AsyncSerialPort1::putString(const int8_t *const iString,
 	return currentStatus;
 }
 
+/*
+ * Mutex method
+ */
+portBASE_TYPE AsyncSerialPort1::takeMutex(portTickType iBlockTime)
+{
+	return portMutex.Take(iBlockTime);
+}
+
+portBASE_TYPE AsyncSerialPort1::giveMutex(void)
+{
+	return portMutex.Give();
+}
 /*
  * Closing port method
  */
@@ -310,7 +321,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	}
 }
 
-void setParityPort1(USART_InitTypeDef &iUsartInitStruct, Parity iParity)
+void setParityPort1(USART_InitTypeDef& iUsartInitStruct, Parity iParity)
 {
 	switch (iParity)
 	{
@@ -326,7 +337,7 @@ void setParityPort1(USART_InitTypeDef &iUsartInitStruct, Parity iParity)
 	}
 }
 
-void setStopBitPort1(USART_InitTypeDef &iUsartInitStruct, StopBits iStopBit)
+void setStopBitPort1(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit)
 {
 	switch (iStopBit)
 	{
@@ -339,7 +350,7 @@ void setStopBitPort1(USART_InitTypeDef &iUsartInitStruct, StopBits iStopBit)
 	}
 }
 
-void setWordlengthPort1(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLength)
+void setWordlengthPort1(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength)
 {
 	switch (iWordLength)
 	{
@@ -352,8 +363,8 @@ void setWordlengthPort1(USART_InitTypeDef &iUsartInitStruct, DataBits iWordLengt
 	}
 }
 
-void setLinkModePort1(GPIO_InitTypeDef &iGpioInitStruct,
-		USART_InitTypeDef &iUsartInitStruct, LinkMode iLinkMode)
+void setLinkModePort1(GPIO_InitTypeDef& iGpioInitStruct,
+		USART_InitTypeDef& iUsartInitStruct, LinkMode iLinkMode)
 {
 	switch (iLinkMode)
 	{
@@ -382,8 +393,8 @@ void setLinkModePort1(GPIO_InitTypeDef &iGpioInitStruct,
 	}
 }
 
-void setHwFlowCtrlPort1(GPIO_InitTypeDef &iGpioInitStruct,
-		USART_InitTypeDef &iUsartInitStruct, HwFlowCtrl iHwFlowCtrl)
+void setHwFlowCtrlPort1(GPIO_InitTypeDef& iGpioInitStruct,
+		USART_InitTypeDef& iUsartInitStruct, HwFlowCtrl iHwFlowCtrl)
 {
 	switch (iHwFlowCtrl)
 	{
@@ -436,7 +447,7 @@ void setNvicPort1(uint8_t iPreempPriority, uint8_t iSubPriority)
  */
 void usart1InterruptHandler(void)
 {
-	static AsyncSerialPort1 *portHandle = AsyncSerialPort1::getInstance();
+	static AsyncSerialPort1* portHandle = AsyncSerialPort1::getInstance();
 	static CQueue outStream = portHandle->getOutStream();
 	static CQueue inStream = portHandle->getInStream();
 

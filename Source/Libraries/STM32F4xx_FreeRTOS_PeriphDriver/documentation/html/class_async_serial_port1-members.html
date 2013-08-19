@@ -83,14 +83,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 This is the complete list of members for <a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a>, including all inherited members.<table>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a2dd7f83163710334d2dc5be1e53812be">closePort</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#abf7bce398cb06b5368f7a617bcbdf857">getChar</a>(const int8_t *oCharacter, portTickType iBlockTime)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#adfc4561e4d464389eb6dc16886d8e21d">getCurrentStatus</a>()</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#ae5c7825b0eb62d17f937e1db43bd72ab">getCurrentStatus</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a1c767b7bdd824c5b3fd4cdaa3dfc2081">getInstance</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td><code> [static]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a61f0414477f9979a4aae765f9cd2d9e3">getInStream</a>()</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#ac971fccf2a2885233436f7685ee964cd">getOutStream</a>()</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#aca8bcbacddd2d46ca9460c3d9b232752">getInStream</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a826613a7951299d92cda2a7dac338636">getOutStream</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a38c06002c0fb8fbd5b1eb8ea4ef6a69c">giveMutex</a>(void)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a9661343083970644038cc10ba8e3d0a5">portHandle</a></td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a414bdbd17f686e2a31f8109d4492b595">putChar</a>(const int8_t iCharacter, portTickType iBlockTime)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a1f8e0292a566d5a16e993202a6ea9d1b">putString</a>(const int8_t *const iString, uint32_t *oNbCharSent)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#ad62d4d10e37dc483addf7df23f3cd4dc">setCurrentStatus</a>(SerialStatus iStatus)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a2be5dc99ca1c1edd5153a96f3336e6e8">takeMutex</a>(portTickType iBlockTime)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_async_serial_port1.html#a3f62abb242f09bb35524d31996c88320">usartInit</a>(Parity iParityConf, StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority, uint8_t iSubPriority, InterruptSetting iInterruptSetting)</td><td><a class="el" href="class_async_serial_port1.html">AsyncSerialPort1</a></td><td></td></tr>
 </table></div><!-- contents -->
 <!-- window showing the filter options -->
@@ -110,7 +112,7 @@ This is the complete list of members for <a class="el" href="class_async_serial_
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 18 2013 23:06:12 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 19 2013 00:08:59 for STM32F4xxx_FreeRTOS_PeriphLib by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -15,15 +15,15 @@
 \item 
 \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_a3f62abb242f09bb35524d31996c88320}{usart\-Init} (\hyperlink{_serial_type_8h_ac47b2bd906d2c843b97ecae6c1eea710}{\-Parity} i\-Parity\-Conf, \hyperlink{_serial_type_8h_a2e4c31ec0a94db405865b7c241717fbe}{\-Stop\-Bits} i\-Stop\-Bit\-Conf, \hyperlink{_serial_type_8h_a11275f46707b20c44d7b07eb6ca04baf}{\-Data\-Bits} i\-Data\-Length\-Conf, \hyperlink{_serial_type_8h_a0ed0ee4a49d7dcf4109ba39a3ca1a8b7}{\-Hw\-Flow\-Ctrl} i\-Hw\-Flow\-Ctrl, \hyperlink{_serial_type_8h_a30da35a35e2d0882c738f6f991905df7}{\-Link\-Mode} i\-Link\-Mode, \hyperlink{_serial_type_8h_a7654bd82719bfde1c792d7828664dde2}{\-Baud\-Rate} i\-Baud\-Rate\-Conf, uint8\-\_\-t i\-Preemp\-Priority, uint8\-\_\-t i\-Sub\-Priority, \hyperlink{_serial_type_8h_ad8005790f3b92862aa09c52f14f58e24}{\-Interrupt\-Setting} i\-Interrupt\-Setting)
 \begin{DoxyCompactList}\small\item\em \-This method initialize the port according to the desired settings. \end{DoxyCompactList}\item 
-\hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_adfc4561e4d464389eb6dc16886d8e21d}{get\-Current\-Status} ()
+\hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_ae5c7825b0eb62d17f937e1db43bd72ab}{get\-Current\-Status} (void)
 \begin{DoxyCompactList}\small\item\em \-This method enable the user to interrogate the port for its current status. \end{DoxyCompactList}\item 
 \hypertarget{class_async_serial_port1_ad62d4d10e37dc483addf7df23f3cd4dc}{void \hyperlink{class_async_serial_port1_ad62d4d10e37dc483addf7df23f3cd4dc}{set\-Current\-Status} (\hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} i\-Status)}\label{class_async_serial_port1_ad62d4d10e37dc483addf7df23f3cd4dc}
 
 \begin{DoxyCompactList}\small\item\em $\ast$$\ast$$\ast$\-This method is \-U\-S\-E\-D \-O\-N\-L\-Y \-B\-Y \-T\-H\-E \-I\-N\-T\-E\-R\-R\-U\-P\-T \-H\-A\-N\-D\-L\-E\-R$\ast$$\ast$$\ast$ \end{DoxyCompactList}\item 
-\hypertarget{class_async_serial_port1_ac971fccf2a2885233436f7685ee964cd}{\-C\-Queue \& \hyperlink{class_async_serial_port1_ac971fccf2a2885233436f7685ee964cd}{get\-Out\-Stream} ()}\label{class_async_serial_port1_ac971fccf2a2885233436f7685ee964cd}
+\hypertarget{class_async_serial_port1_a826613a7951299d92cda2a7dac338636}{\-C\-Queue \& \hyperlink{class_async_serial_port1_a826613a7951299d92cda2a7dac338636}{get\-Out\-Stream} (void)}\label{class_async_serial_port1_a826613a7951299d92cda2a7dac338636}
 
 \begin{DoxyCompactList}\small\item\em $\ast$$\ast$$\ast$\-This method is \-U\-S\-E\-D \-O\-N\-L\-Y \-B\-Y \-T\-H\-E \-I\-N\-T\-E\-R\-R\-U\-P\-T \-H\-A\-N\-D\-L\-E\-R$\ast$$\ast$$\ast$ \end{DoxyCompactList}\item 
-\hypertarget{class_async_serial_port1_a61f0414477f9979a4aae765f9cd2d9e3}{\-C\-Queue \& \hyperlink{class_async_serial_port1_a61f0414477f9979a4aae765f9cd2d9e3}{get\-In\-Stream} ()}\label{class_async_serial_port1_a61f0414477f9979a4aae765f9cd2d9e3}
+\hypertarget{class_async_serial_port1_aca8bcbacddd2d46ca9460c3d9b232752}{\-C\-Queue \& \hyperlink{class_async_serial_port1_aca8bcbacddd2d46ca9460c3d9b232752}{get\-In\-Stream} (void)}\label{class_async_serial_port1_aca8bcbacddd2d46ca9460c3d9b232752}
 
 \begin{DoxyCompactList}\small\item\em $\ast$$\ast$$\ast$\-This method is \-U\-S\-E\-D \-O\-N\-L\-Y \-B\-Y \-T\-H\-E \-I\-N\-T\-E\-R\-R\-U\-P\-T \-H\-A\-N\-D\-L\-E\-R$\ast$$\ast$$\ast$ \end{DoxyCompactList}\item 
 \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_abf7bce398cb06b5368f7a617bcbdf857}{get\-Char} (const int8\-\_\-t $\ast$o\-Character, port\-Tick\-Type i\-Block\-Time)
@@ -31,7 +31,11 @@
 \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_a414bdbd17f686e2a31f8109d4492b595}{put\-Char} (const int8\-\_\-t i\-Character, port\-Tick\-Type i\-Block\-Time)
 \begin{DoxyCompactList}\small\item\em \-This method enables to write data on the port. \end{DoxyCompactList}\item 
 \hyperlink{_serial_type_8h_a71c113451bfafdaf5fcabcd807acd480}{\-Serial\-Status} \hyperlink{class_async_serial_port1_a1f8e0292a566d5a16e993202a6ea9d1b}{put\-String} (const int8\-\_\-t $\ast$const i\-String, uint32\-\_\-t $\ast$o\-Nb\-Char\-Sent)
-\begin{DoxyCompactList}\small\item\em \-This method enables to write data on the port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \-This method enables to write data on the port. \end{DoxyCompactList}\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{class_async_serial_port1_a2be5dc99ca1c1edd5153a96f3336e6e8}{take\-Mutex} (port\-Tick\-Type i\-Block\-Time)
+\begin{DoxyCompactList}\small\item\em \-This method enables to take the mutex of the port. \end{DoxyCompactList}\item 
+port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E \hyperlink{class_async_serial_port1_a38c06002c0fb8fbd5b1eb8ea4ef6a69c}{give\-Mutex} (void)
+\begin{DoxyCompactList}\small\item\em \-This method enables to give the mutex of the port. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{\-Static \-Public \-Member \-Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -49,7 +53,7 @@ static \hyperlink{class_async_serial_port1}{\-Async\-Serial\-Port1} $\ast$ \hype
 \subsection{\-Detailed \-Description}
 \-Singleton of the asynchronous port 1. 
 
-\-This class is the second level driver of the serial port 1 in asynchronous mode. \-It uses the \-C\-Queue framework of the \-Free\-R\-T\-O\-S and \-Free\-R\-T\-O\-S \-C++ wrapper as \-Rx/\-Tx buffers.
+\-This class is the second level driver of the serial port 1 in asynchronous mode. \-It uses the \-C\-Queue framework of the \-Free\-R\-T\-O\-S and \-Free\-R\-T\-O\-S \-C++ wrapper as \-Rx/\-Tx buffers. \-It uses the \-C\-Mutex framework of the \-Free\-R\-T\-O\-S and \-Free\-R\-T\-O\-S \-C++ wrapper to ensures that the port will not be used by more than one task at the time.
 
 \begin{DoxyDate}{\-Date}
 \-May 1, 2013 
@@ -95,13 +99,13 @@ julien
 \begin{DoxyReturn}{\-Returns}
 \-The current status of the port. 
 \end{DoxyReturn}
-\hypertarget{class_async_serial_port1_adfc4561e4d464389eb6dc16886d8e21d}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!get\-Current\-Status@{get\-Current\-Status}}
+\hypertarget{class_async_serial_port1_ae5c7825b0eb62d17f937e1db43bd72ab}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!get\-Current\-Status@{get\-Current\-Status}}
 \index{get\-Current\-Status@{get\-Current\-Status}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
 \subsubsection[{get\-Current\-Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Serial\-Status} {\bf \-Async\-Serial\-Port1\-::get\-Current\-Status} (
 \begin{DoxyParamCaption}
-{}
+\item[{void}]{}
 \end{DoxyParamCaption}
-)}}\label{class_async_serial_port1_adfc4561e4d464389eb6dc16886d8e21d}
+)}}\label{class_async_serial_port1_ae5c7825b0eb62d17f937e1db43bd72ab}
 
 
 \-This method enable the user to interrogate the port for its current status. 
@@ -124,6 +128,20 @@ julien
 
 \begin{DoxyReturn}{\-Returns}
 \-The port handle. 
+\end{DoxyReturn}
+\hypertarget{class_async_serial_port1_a38c06002c0fb8fbd5b1eb8ea4ef6a69c}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!give\-Mutex@{give\-Mutex}}
+\index{give\-Mutex@{give\-Mutex}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
+\subsubsection[{give\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E {\bf \-Async\-Serial\-Port1\-::give\-Mutex} (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_async_serial_port1_a38c06002c0fb8fbd5b1eb8ea4ef6a69c}
+
+
+\-This method enables to give the mutex of the port. 
+
+\begin{DoxyReturn}{\-Returns}
+1 if the mutex was given, 0 otherwise. 
 \end{DoxyReturn}
 \hypertarget{class_async_serial_port1_a414bdbd17f686e2a31f8109d4492b595}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!put\-Char@{put\-Char}}
 \index{put\-Char@{put\-Char}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
@@ -172,6 +190,25 @@ julien
 \end{DoxyParams}
 \begin{DoxyReturn}{\-Returns}
 \-The current status of the port. 
+\end{DoxyReturn}
+\hypertarget{class_async_serial_port1_a2be5dc99ca1c1edd5153a96f3336e6e8}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!take\-Mutex@{take\-Mutex}}
+\index{take\-Mutex@{take\-Mutex}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
+\subsubsection[{take\-Mutex}]{\setlength{\rightskip}{0pt plus 5cm}port\-B\-A\-S\-E\-\_\-\-T\-Y\-P\-E {\bf \-Async\-Serial\-Port1\-::take\-Mutex} (
+\begin{DoxyParamCaption}
+\item[{port\-Tick\-Type}]{i\-Block\-Time}
+\end{DoxyParamCaption}
+)}}\label{class_async_serial_port1_a2be5dc99ca1c1edd5153a96f3336e6e8}
+
+
+\-This method enables to take the mutex of the port. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em i\-Block\-Time} & \-The time the port will block tasks until the mutex is freed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+1 if the mutex was taken, 0 otherwise. 
 \end{DoxyReturn}
 \hypertarget{class_async_serial_port1_a3f62abb242f09bb35524d31996c88320}{\index{\-Async\-Serial\-Port1@{\-Async\-Serial\-Port1}!usart\-Init@{usart\-Init}}
 \index{usart\-Init@{usart\-Init}!AsyncSerialPort1@{\-Async\-Serial\-Port1}}
