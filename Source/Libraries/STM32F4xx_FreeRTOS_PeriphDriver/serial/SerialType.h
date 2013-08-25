@@ -3,8 +3,12 @@
  * \brief This file contains every enum used to configure and control serial
  *        ports.
  *
- * \date May 1, 2013
- * \author julien
+ * \date	Created on: May 1, 2013
+ * \date	Last change on:
+ * \author	Created by: julien
+ * \author	Last change by:
+ *
+ * \version Revision:
  */
 
 #ifndef SERIALTYPE_H_
@@ -88,6 +92,7 @@ typedef enum
 	SERIAL_SIMPLEX_TX,
 	SERIAL_HALF_DUPLEX,
 	SERIAL_FULL_DUPLEX
+	//TODO: add LIN, IrDa and Smartcard modes
 } LinkMode;
 
 /**

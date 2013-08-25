@@ -1,9 +1,20 @@
 /**
  * \file AsyncSerialPort1.h
+ * \class AsyncSerialPort1
  * \brief Singleton of the asynchronous port 1.
  *
- * \date May 1, 2013
- * \author julien
+ * This class is the second level driver of the serial port 1 in asynchronous
+ * mode. It uses the CQueue framework of the FreeRTOS and FreeRTOS C++ wrapper
+ * as Rx/Tx buffers. It uses the CMutex framework of the FreeRTOS and FreeRTOS
+ * C++ wrapper to ensures that the port will not be used by more than one task
+ * at the time.
+ *
+ * \date	Created on: May 1, 2013
+ * \date	Last change on:
+ * \author	Created by: julien
+ * \author	Last change by:
+ *
+ * \version Revision:
  */
 
 #ifndef ASYNCSERIAL1_H_
@@ -31,19 +42,6 @@
  */
 #define SERIAL_PORT1_SUBPRIORITY		0
 
-/**
- * \class AsyncSerialPort1
- * \brief Singleton of the asynchronous port 1.
- *
- * This class is the second level driver of the serial port 1 in asynchronous
- * mode. It uses the CQueue framework of the FreeRTOS and FreeRTOS C++ wrapper
- * as Rx/Tx buffers. It uses the CMutex framework of the FreeRTOS and FreeRTOS
- * C++ wrapper to ensures that the port will not be used by more than one task
- * at the time.
- *
- * \date May 1, 2013
- * \author julien
- */
 class AsyncSerialPort1
 {
 public:

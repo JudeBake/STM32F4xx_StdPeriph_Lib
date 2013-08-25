@@ -32,7 +32,7 @@ PROJECT_NAME           = STM32F4xxx_FreeRTOS_PeriphLib
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = 
+PROJECT_NUMBER         = 1.0.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description 
 # for a project that appears at the top of each page and should give viewer 
@@ -982,7 +982,7 @@ HTML_ALIGN_MEMBERS     = YES
 # JavaScript and DHTML is required (for instance Mozilla 1.0+, Firefox 
 # Netscape 6.0+, Internet explorer 5.0+, Konqueror, or Safari).
 
-HTML_DYNAMIC_SECTIONS  = NO
+HTML_DYNAMIC_SECTIONS  = YES
 
 # If the GENERATE_DOCSET tag is set to YES, additional index files 
 # will be generated that can be used as input for Apple's Xcode 3 
@@ -1153,7 +1153,7 @@ DISABLE_INDEX          = NO
 # Since the tree basically has the same information as the tab index you 
 # could consider to set DISABLE_INDEX to NO when enabling this option.
 
-GENERATE_TREEVIEW      = NO
+GENERATE_TREEVIEW      = YES
 
 # The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values 
 # (range [0,1..20]) that doxygen will group on one line in the generated HTML 
@@ -1573,12 +1573,12 @@ SKIP_FUNCTION_MACROS   = YES
 # If a tag file is not located in the directory in which doxygen 
 # is run, you must also specify the path to the tagfile here.
 
-TAGFILES               = 
+TAGFILES               = ../../../../../../../FreeRTOS/FreeRTOS_EC/Document/FreeRTOES_EC_tags=../../../../../../../../FreeRTOS/FreeRTOS_EC/Document/API/html
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads.
 
-GENERATE_TAGFILE       = STM32F4xx_FreeRTOS_PeriphDriver_tags.tag
+GENERATE_TAGFILE       = STM32F4xx_FreeRTOS_PeriphDriver_tags
 
 # If the ALLEXTERNALS tag is set to YES all external classes will be listed 
 # in the class index. If set to NO only the inherited external classes 

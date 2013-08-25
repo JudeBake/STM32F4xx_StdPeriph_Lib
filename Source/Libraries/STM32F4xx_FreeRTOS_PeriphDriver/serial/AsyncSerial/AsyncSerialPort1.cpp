@@ -1,8 +1,12 @@
 /*
  * \file AsyncSerialPort1.cpp
  *
- * \date May 1, 2013
- * \author julien
+ * \date	Created on: May 1, 2013
+ * \date	Last change on:
+ * \author	Created by: julien
+ * \author	Last change by:
+ *
+ * \version Revision:
  */
 
 #include "SerialPortConf.h"
