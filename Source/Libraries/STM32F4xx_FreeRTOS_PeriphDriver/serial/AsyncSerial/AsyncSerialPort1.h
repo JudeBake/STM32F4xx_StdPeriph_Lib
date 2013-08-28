@@ -10,11 +10,12 @@
  * at the time.
  *
  * \date	Created on: May 1, 2013
- * \date	Last change on:
- * \author	Created by: julien
- * \author	Last change by:
+ * \date	Last change on: &DATE&
  *
- * \version Revision:
+ * \author	Created by: julien
+ * \author	Last change by: &AUTHOR&
+ *
+ * \version	Commit Id: &REVISION&
  */
 
 #ifndef ASYNCSERIAL1_H_
