@@ -24,7 +24,7 @@ Uart1TestTask::Uart1TestTask()
 	testBaudRate = SERIAL_9600_BAUD;
 	testInterSetting = SERIAL_INT_ENABLE;
 
-	character = "\0";
+	character = 0;
 }
 
 Uart1TestTask::~Uart1TestTask()
