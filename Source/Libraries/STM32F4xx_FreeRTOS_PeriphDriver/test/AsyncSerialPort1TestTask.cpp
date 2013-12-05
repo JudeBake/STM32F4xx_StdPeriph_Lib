@@ -20,7 +20,7 @@ typedef enum
 } TestingPhase;
 
 void initTestString(uint8_t* testString, uint32_t stringLength);
-void initOveloadTestStr(uint8_t* ovldTestStr, uint32_t stringLength);
+void initOverloadTestStr(uint8_t* ovldTestStr, uint32_t stringLength);
 
 AsyncSerialPort1TestTask::AsyncSerialPort1TestTask()
 {
@@ -87,13 +87,21 @@ void AsyncSerialPort1TestTask::Run(void)
 {
 	TestingPhase testPhase = CHAR_READ_WRITE;
 	uint8_t testString[SERIAL_PORT1_BUFFERS_LENGTH];
-	uint8_t befferOverloadStr[SERIAL_PORT1_BUFFERS_LENGTH + 1];
+	uint8_t overloadTestStr[SERIAL_PORT1_BUFFERS_LENGTH + 1];
+	uint32_t i;
+
+	initTestString(testString, SERIAL_PORT1_BUFFERS_LENGTH);
+	initOverloadTestStr(overloadTestStr, SERIAL_PORT1_BUFFERS_LENGTH + 1);
 
 	while (1)
 	{
 		while (testPhase == CHAR_READ_WRITE)
 		{
-
+			for (i = 0; i < 3; i++)
+			{
+				currentStatus = portInstance->putChar(testString[i],
+						portMAX_DELAY);
+			}
 		}
 
 		while (testPhase == STRING_READ_WRITE)
@@ -106,5 +114,33 @@ void AsyncSerialPort1TestTask::Run(void)
 
 		}
 	}
+}
+
+void initTestString(uint8_t* testString, uint32_t stringLength)
+{
+	uint8_t character = 1;
+	uint32_t i;
+
+	for (i = 0; i < stringLength - 1; i++)
+	{
+		testString[i] = character;
+		character++;
+	}
+
+	testString[i] = '\0';
+}
+
+void initOverloadTestStr(uint8_t* ovldTestStr, uint32_t stringLength)
+{
+	uint8_t character = 1;
+	uint32_t i;
+
+	for (i = 0; i < stringLength - 1; i++)
+	{
+		ovldTestStr[i] = character;
+		character++;
+	}
+
+	ovldTestStr[i] = '\0';
 }
 

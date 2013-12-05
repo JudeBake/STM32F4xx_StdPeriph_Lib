@@ -405,14 +405,11 @@ void setHwFlowCtrlPort1(GPIO_InitTypeDef& iGpioInitStruct,
 	switch (iHwFlowCtrl)
 	{
 	case SERIAL_NO_HW_FLOW_CTRL:
-		iGpioInitStruct.GPIO_Pin = USART1_RTS;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RTS_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_None;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS:
-		iGpioInitStruct.GPIO_Pin = USART1_CTS;
+		iGpioInitStruct.GPIO_Pin = USART1_RTS;
 		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
 		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_CTS_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_HardwareFlowControl =
