@@ -101,6 +101,9 @@ void AsyncSerialPort1TestTask::Run(void)
 			{
 				currentStatus = portInstance->putChar(testString[i],
 						portMAX_DELAY);
+				Delay(100 / portTICK_RATE_MS);
+				currentStatus = portInstance->getChar(&character,
+						portMAX_DELAY);
 			}
 		}
 

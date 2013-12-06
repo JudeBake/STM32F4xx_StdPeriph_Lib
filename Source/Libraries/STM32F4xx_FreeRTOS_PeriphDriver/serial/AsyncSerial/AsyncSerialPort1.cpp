@@ -39,8 +39,7 @@ AsyncSerialPort1* AsyncSerialPort1::portHandle = NULL;
 extern "C"
 {
 #endif
-#define AsyncSerialPort1InterruptHandler	USART1_IRQHandler
-void AsyncSerialPort1InterruptHandler(void);
+void USART1_IRQHandler(void);
 #ifdef __cplusplus
 }
 #endif
@@ -186,17 +185,14 @@ CQueue& AsyncSerialPort1::getInStream(void)
 SerialStatus AsyncSerialPort1::getChar(const int8_t* oCharacter,
 		portTickType iBlockTime)
 {
-	SerialStatus oReturn;
+	SerialStatus oReturn = currentStatus;
 
-	if ((currentStatus == SERIAL_OK) &&
-			(dataStreamIn.Receive((void*)oCharacter, iBlockTime)))
+	if (currentStatus == SERIAL_OK)
 	{
-		oReturn = currentStatus;
-	}
-
-	else
-	{
-		oReturn = SERIAL_RX_BUFFER_EMPTY;
+		if (!dataStreamIn.Receive((void*)oCharacter, iBlockTime))
+		{
+			oReturn = SERIAL_RX_BUFFER_EMPTY;
+		}
 	}
 
 	return oReturn;
@@ -208,14 +204,17 @@ SerialStatus AsyncSerialPort1::getChar(const int8_t* oCharacter,
 SerialStatus AsyncSerialPort1::putChar(const int8_t iCharacter,
 		portTickType iBlockTime)
 {
-	if (dataStreamOut.Send((void*)&iCharacter, iBlockTime))
+	if (currentStatus == SERIAL_OK)
 	{
-		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-	}
+		if (dataStreamOut.Send((void*)&iCharacter, iBlockTime))
+		{
+			USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+		}
 
-	else
-	{
-		currentStatus = SERIAL_TX_BUFFER_FULL;
+		else
+		{
+			currentStatus = SERIAL_TX_BUFFER_FULL;
+		}
 	}
 
 	return currentStatus;
@@ -325,7 +324,8 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 			USART_ITConfig(USART1, USART_IT_PE, ENABLE);
 		}
 
-		if (iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_CTS)
+		if (iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_CTS ||
+				iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_RTS_CTS)
 		{
 			USART_ITConfig(USART1, USART_IT_CTS, ENABLE);
 		}
@@ -455,7 +455,7 @@ void setNvicPort1(uint8_t iPreempPriority, uint8_t iSubPriority)
 /*
  * Interrupt handler
  */
-void AsyncSerialPort1InterruptHandler(void)
+void USART1_IRQHandler(void)
 {
 	static AsyncSerialPort1* portHandle = AsyncSerialPort1::getInstance();
 	static CQueue outStream = portHandle->getOutStream();
@@ -482,7 +482,6 @@ void AsyncSerialPort1InterruptHandler(void)
 		else
 		{
 			USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
-			portHandle->setCurrentStatus(SERIAL_RX_BUFFER_EMPTY);
 		}
 	}
 

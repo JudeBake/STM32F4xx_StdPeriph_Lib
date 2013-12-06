@@ -34,8 +34,8 @@ private:
 	BaudRate testBaudRate;
 	InterruptSetting testInterSetting;
 
-	uint8_t character;
-	uint8_t string[SERIAL_PORT1_BUFFERS_LENGTH];
+	int8_t character;
+	int8_t string[SERIAL_PORT1_BUFFERS_LENGTH];
 
 public:
 	/*
