@@ -35,8 +35,15 @@ AsyncSerialPort1* AsyncSerialPort1::portHandle = NULL;
 /*
  * Interrupt handler
  */
-#define usart1InterruptHandler USART1_IRQHandler
-void usart1InterruptHandler(void);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+#define AsyncSerialPort1InterruptHandler	USART1_IRQHandler
+void AsyncSerialPort1InterruptHandler(void);
+#ifdef __cplusplus
+}
+#endif
 
 /*
  * Private functions
@@ -448,7 +455,7 @@ void setNvicPort1(uint8_t iPreempPriority, uint8_t iSubPriority)
 /*
  * Interrupt handler
  */
-void usart1InterruptHandler(void)
+void AsyncSerialPort1InterruptHandler(void)
 {
 	static AsyncSerialPort1* portHandle = AsyncSerialPort1::getInstance();
 	static CQueue outStream = portHandle->getOutStream();

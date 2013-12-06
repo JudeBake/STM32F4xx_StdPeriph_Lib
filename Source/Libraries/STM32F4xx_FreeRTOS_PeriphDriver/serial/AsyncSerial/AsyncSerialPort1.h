@@ -35,7 +35,7 @@
  * \def SERIAL_PORT1_PREEMP_PRIORITY
  * \brief The preemptive priority of the port.
  */
-#define SERIAL_PORT1_PREEMP_PRIORITY	15
+#define SERIAL_PORT1_PREEMP_PRIORITY	0
 
 /**
  * \def SERIAL_PORT1_SUBPRIORITY
