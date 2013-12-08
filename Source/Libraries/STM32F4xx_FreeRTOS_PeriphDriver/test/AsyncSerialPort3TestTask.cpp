@@ -16,11 +16,11 @@ typedef enum
 {
 	CHAR_READ_WRITE,
 	STRING_READ_WRITE,
-	STRING_OVERLOAD
+	BUFFER_OVERLOAD
 } TestingPhase;
 
-void initTestString(uint8_t* testString, uint32_t stringLength);
-void initOverloadTestStr(uint8_t* ovldTestStr, uint32_t stringLength);
+void initTestString(int8_t* testString, uint32_t stringLength);
+void initOverloadTestStr(int8_t* ovldTestStr, uint32_t stringLength);
 
 AsyncSerialPort3TestTask::AsyncSerialPort3TestTask()
 {
@@ -35,6 +35,7 @@ AsyncSerialPort3TestTask::AsyncSerialPort3TestTask()
 	testInterSetting = SERIAL_INT_ENABLE;
 
 	character = '\0';
+	nbCharSent = 0;
 }
 
 AsyncSerialPort3TestTask::~AsyncSerialPort3TestTask()
@@ -86,11 +87,9 @@ portBASE_TYPE AsyncSerialPort3TestTask::OnCreate(const portCHAR * const pcName,
 void AsyncSerialPort3TestTask::Run(void)
 {
 	TestingPhase testPhase = CHAR_READ_WRITE;
-	uint8_t testString[SERIAL_PORT3_BUFFERS_LENGTH];
-	uint8_t overloadTestStr[SERIAL_PORT3_BUFFERS_LENGTH + 1];
 	uint32_t i;
 
-	initTestString(testString, SERIAL_PORT3_BUFFERS_LENGTH);
+	initTestString(testTxString, SERIAL_PORT3_BUFFERS_LENGTH);
 	initOverloadTestStr(overloadTestStr, SERIAL_PORT3_BUFFERS_LENGTH + 1);
 
 	while (1)
@@ -99,29 +98,35 @@ void AsyncSerialPort3TestTask::Run(void)
 		{
 			for (i = 0; i < 3; i++)
 			{
-				currentStatus = portInstance->putChar(testString[i],
-						portMAX_DELAY);
+				currentStatus = portInstance->putChar(testTxString[i], 10);
 				Delay(100 / portTICK_RATE_MS);
-				currentStatus = portInstance->getChar(&character,
-						portMAX_DELAY);
+				currentStatus = portInstance->getChar(&character, 10);
 			}
 		}
 
 		while (testPhase == STRING_READ_WRITE)
 		{
-
+			currentStatus = portInstance->putString(testTxString, &nbCharSent);
+			Delay(100 / portTICK_RATE_MS);
+			i = 0;
+			while ((currentStatus = portInstance->getChar(&character, 10)) ==
+					SERIAL_OK)
+			{
+				testRxString[i] = character;
+				i++;
+			}
 		}
 
-		while (testPhase == STRING_OVERLOAD)
+		while (testPhase == BUFFER_OVERLOAD)
 		{
 
 		}
 	}
 }
 
-void initTestString(uint8_t* testString, uint32_t stringLength)
+void initTestString(int8_t* testString, uint32_t stringLength)
 {
-	uint8_t character = 1;
+	int8_t character = 1;
 	uint32_t i;
 
 	for (i = 0; i < stringLength - 1; i++)
@@ -133,9 +138,9 @@ void initTestString(uint8_t* testString, uint32_t stringLength)
 	testString[i] = '\0';
 }
 
-void initOverloadTestStr(uint8_t* ovldTestStr, uint32_t stringLength)
+void initOverloadTestStr(int8_t* ovldTestStr, uint32_t stringLength)
 {
-	uint8_t character = 1;
+	int8_t character = 1;
 	uint32_t i;
 
 	for (i = 0; i < stringLength - 1; i++)
