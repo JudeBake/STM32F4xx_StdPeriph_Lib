@@ -121,7 +121,20 @@ void AsyncSerialPortTestTask::Run(void)
 
 		while (testPhase == STRING_OVERLOAD)
 		{
-
+			/**
+			 * for this test phase you need to manually modify the length of
+			 * the Tx an Rx buffer of the port tested so the Txbuffer will be
+			 * bigger than the Rx one.
+			 */
+			currentStatus = portInstance->putString(testTxString, &nbCharSent);
+			Delay(100 / portTICK_RATE_MS);
+			i = 0;
+			while ((currentStatus = portInstance->getChar(&character, 10)) ==
+					SERIAL_OK)
+			{
+				testRxString[i] = character;
+				i++;
+			}
 		}
 	}
 }
