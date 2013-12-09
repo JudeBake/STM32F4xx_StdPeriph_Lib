@@ -37,7 +37,7 @@ private:
 	int8_t character;
 	int8_t testTxString[SERIAL_PORT3_BUFFERS_LENGTH];
 	int8_t testRxString[SERIAL_PORT3_BUFFERS_LENGTH];
-	int8_t overloadTestStr[SERIAL_PORT3_BUFFERS_LENGTH + 1];
+	int8_t overloadTestStr[SERIAL_PORT3_BUFFERS_LENGTH + 2];
 	uint32_t nbCharSent;
 
 public:

@@ -280,6 +280,7 @@ void initPort1(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
 	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Pin = 0;
 	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
 	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
@@ -382,22 +383,19 @@ void setLinkModePort1(GPIO_InitTypeDef& iGpioInitStruct,
 	switch (iLinkMode)
 	{
 	case SERIAL_SIMPLEX_RX:
-		iGpioInitStruct.GPIO_Pin = USART1_RX;
-		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART1_RX;
 		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RX_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx;
 		break;
 	case SERIAL_SIMPLEX_TX:
-		iGpioInitStruct.GPIO_Pin = USART1_TX;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART1_TX;
 		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_TX_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_Mode = USART_Mode_Tx;
 		break;
 	case SERIAL_FULL_DUPLEX:
-		iGpioInitStruct.GPIO_Pin = USART1_RX | USART1_TX;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RX_SOURCE | USART1_TX_SOURCE,
-				GPIO_AF_USART1);
+		iGpioInitStruct.GPIO_Pin |= USART1_RX | USART1_TX;
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RX_SOURCE, GPIO_AF_USART1);
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_TX_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 		break;
 	case SERIAL_HALF_DUPLEX:
@@ -416,24 +414,21 @@ void setHwFlowCtrlPort1(GPIO_InitTypeDef& iGpioInitStruct,
 				USART_HardwareFlowControl_None;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS:
-		iGpioInitStruct.GPIO_Pin = USART1_RTS;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_CTS_SOURCE, GPIO_AF_USART1);
+		iGpioInitStruct.GPIO_Pin |= USART1_RTS;
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RTS_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_CTS:
-		iGpioInitStruct.GPIO_Pin = USART1_CTS;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART1_CTS;
 		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_CTS_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_CTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS_CTS:
-		iGpioInitStruct.GPIO_Pin = USART1_RTS | USART1_CTS;
-		GPIO_Init(USART1_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART1_GPIO_PORT,
-				USART1_RTS_SOURCE | USART1_CTS_SOURCE, GPIO_AF_USART1);
+		iGpioInitStruct.GPIO_Pin |= USART1_RTS | USART1_CTS;
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_RTS_SOURCE, GPIO_AF_USART1);
+		GPIO_PinAFConfig(USART1_GPIO_PORT, USART1_CTS_SOURCE, GPIO_AF_USART1);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS_CTS;
 		break;

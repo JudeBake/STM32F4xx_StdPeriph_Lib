@@ -86,11 +86,11 @@ portBASE_TYPE AsyncSerialPortTestTask::OnCreate(const portCHAR * const pcName,
 
 void AsyncSerialPortTestTask::Run(void)
 {
-	TestingPhase testPhase = CHAR_READ_WRITE;
+	TestingPhase testPhase = STRING_OVERLOAD;
 	uint32_t i;
 
 	initTestString(testTxString, SERIAL_PORT3_BUFFERS_LENGTH);
-	initOverloadTestStr(overloadTestStr, SERIAL_PORT3_BUFFERS_LENGTH + 1);
+	initOverloadTestStr(overloadTestStr, SERIAL_PORT3_BUFFERS_LENGTH + 2);
 
 	while (1)
 	{

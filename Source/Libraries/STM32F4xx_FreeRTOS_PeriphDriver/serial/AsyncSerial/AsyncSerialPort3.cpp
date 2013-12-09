@@ -77,7 +77,8 @@ AsyncSerialPort3::AsyncSerialPort3(void)
 	interruptSetting = SERIAL_INT_DISABLE;
 
 	dataStreamIn.Create(SERIAL_PORT3_BUFFERS_LENGTH, sizeof(uint8_t));
-	dataStreamOut.Create(SERIAL_PORT3_BUFFERS_LENGTH, sizeof(uint8_t));
+	//TODO: modified for test
+	dataStreamOut.Create(SERIAL_PORT3_BUFFERS_LENGTH + 2, sizeof(uint8_t));
 
 	portMutex.Create();
 }
@@ -280,6 +281,7 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 
 	//init the gpio init struct with common values
+	gpioInitStruct.GPIO_Pin = 0;
 	gpioInitStruct.GPIO_Mode = GPIO_Mode_AF;
 	gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	gpioInitStruct.GPIO_OType = GPIO_OType_PP;
@@ -309,7 +311,8 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	usartClockInitStruct.USART_CPHA = USART_CPHA_2Edge;
 	usartClockInitStruct.USART_LastBit = USART_LastBit_Disable;
 
-	//init the usart
+	//init the gpio and the usart
+	GPIO_Init(USART3_GPIO_PORT, &gpioInitStruct);
 	USART_Init(USART3, &usartInitStruct);
 	USART_ClockInit(USART3, &usartClockInitStruct);
 
@@ -382,22 +385,19 @@ void setLinkModePort3(GPIO_InitTypeDef& iGpioInitStruct,
 	switch (iLinkMode)
 	{
 	case SERIAL_SIMPLEX_RX:
-		iGpioInitStruct.GPIO_Pin = USART3_RX;
-		GPIO_Init(UART4_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART3_RX;
 		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx;
 		break;
 	case SERIAL_SIMPLEX_TX:
-		iGpioInitStruct.GPIO_Pin = USART3_TX;
-		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART3_TX;
 		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_TX_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_Mode = USART_Mode_Tx;
 		break;
 	case SERIAL_FULL_DUPLEX:
-		iGpioInitStruct.GPIO_Pin = USART3_RX | USART3_TX;
-		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE | USART3_TX_SOURCE,
-				GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART3_RX | USART3_TX;
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE, GPIO_AF_USART3);
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_TX_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 		break;
 	case SERIAL_HALF_DUPLEX:
@@ -416,24 +416,21 @@ void setHwFlowCtrlPort3(GPIO_InitTypeDef& iGpioInitStruct,
 				USART_HardwareFlowControl_None;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS:
-		iGpioInitStruct.GPIO_Pin = USART3_RTS;
-		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART3_RTS;
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_CTS:
-		iGpioInitStruct.GPIO_Pin = USART3_CTS;
-		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
+		iGpioInitStruct.GPIO_Pin |= USART3_CTS;
 		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_CTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS_CTS:
-		iGpioInitStruct.GPIO_Pin = USART3_RTS | USART3_CTS;
-		GPIO_Init(USART3_GPIO_PORT, &iGpioInitStruct);
-		GPIO_PinAFConfig(USART3_GPIO_PORT,
-				USART3_RTS_SOURCE | USART3_CTS_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART3_RTS | USART3_CTS;
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
+		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS_CTS;
 		break;
