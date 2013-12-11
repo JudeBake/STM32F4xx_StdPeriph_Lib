@@ -29,32 +29,37 @@
     </member>
   </compound>
   <compound kind="file">
-    <name>AsyncSerialPort1TestTask.cpp</name>
-    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/test/</path>
-    <filename>_async_serial_port1_test_task_8cpp</filename>
-    <includes id="_async_serial_port1_test_task_8h" name="AsyncSerialPort1TestTask.h" local="yes" imported="no">AsyncSerialPort1TestTask.h</includes>
-    <member kind="function">
-      <type>void</type>
-      <name>initTestString</name>
-      <anchorfile>_async_serial_port1_test_task_8cpp.html</anchorfile>
-      <anchor>abce139445671328e60470f21dc59d871</anchor>
-      <arglist>(uint8_t *testString, uint32_t stringLength)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>initOverloadTestStr</name>
-      <anchorfile>_async_serial_port1_test_task_8cpp.html</anchorfile>
-      <anchor>a5fd5c8a182657895150f3822853da4df</anchor>
-      <arglist>(uint8_t *ovldTestStr, uint32_t stringLength)</arglist>
-    </member>
+    <name>AsyncSerialPort2.cpp</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port2_8cpp</filename>
   </compound>
   <compound kind="file">
-    <name>AsyncSerialPort1TestTask.h</name>
-    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/test/</path>
-    <filename>_async_serial_port1_test_task_8h</filename>
-    <includes id="_async_serial_port1_8h" name="AsyncSerialPort1.h" local="yes" imported="no">AsyncSerialPort1.h</includes>
+    <name>AsyncSerialPort2.h</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port2_8h</filename>
     <includes id="_serial_type_8h" name="SerialType.h" local="yes" imported="no">SerialType.h</includes>
-    <class kind="class">AsyncSerialPort1TestTask</class>
+    <class kind="class">AsyncSerialPort2</class>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT2_BUFFERS_LENGTH</name>
+      <anchorfile>_async_serial_port2_8h.html</anchorfile>
+      <anchor>a4a29ac9f7f34a82e5a62b4d98caf6176</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT2_PREEMP_PRIORITY</name>
+      <anchorfile>_async_serial_port2_8h.html</anchorfile>
+      <anchor>a567f645c7d6fed946349ac0b104bd68d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT2_SUBPRIORITY</name>
+      <anchorfile>_async_serial_port2_8h.html</anchorfile>
+      <anchor>a2e957aa62359c3b658a461f571fd0c9f</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>AsyncSerialPort3.cpp</name>
@@ -90,32 +95,131 @@
     </member>
   </compound>
   <compound kind="file">
-    <name>AsyncSerialPort3TestTask.cpp</name>
+    <name>AsyncSerialPort4.cpp</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port4_8cpp</filename>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPort4.h</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port4_8h</filename>
+    <includes id="_serial_type_8h" name="SerialType.h" local="yes" imported="no">SerialType.h</includes>
+    <class kind="class">AsyncSerialPort4</class>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT4_BUFFERS_LENGTH</name>
+      <anchorfile>_async_serial_port4_8h.html</anchorfile>
+      <anchor>aed36dcbd739e15d5ed5b443c1d7837c7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT4_PREEMP_PRIORITY</name>
+      <anchorfile>_async_serial_port4_8h.html</anchorfile>
+      <anchor>af3f8feba141d03378f2979cf1a865f1b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT4_SUBPRIORITY</name>
+      <anchorfile>_async_serial_port4_8h.html</anchorfile>
+      <anchor>aeabfc9fd24a76a7d04d70d29d50aa91c</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPort5.cpp</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port5_8cpp</filename>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPort5.h</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port5_8h</filename>
+    <includes id="_serial_type_8h" name="SerialType.h" local="yes" imported="no">SerialType.h</includes>
+    <class kind="class">AsyncSerialPort5</class>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT5_BUFFERS_LENGTH</name>
+      <anchorfile>_async_serial_port5_8h.html</anchorfile>
+      <anchor>aa77d7ced4f6ae5c8a342c5e24a0ad59a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT5_PREEMP_PRIORITY</name>
+      <anchorfile>_async_serial_port5_8h.html</anchorfile>
+      <anchor>ab10ba5905b93069a57fcad752c1fc4bb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT5_SUBPRIORITY</name>
+      <anchorfile>_async_serial_port5_8h.html</anchorfile>
+      <anchor>aac82aae55ec0da73472f774ad44ad109</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPort6.cpp</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port6_8cpp</filename>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPort6.h</name>
+    <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/serial/AsyncSerial/</path>
+    <filename>_async_serial_port6_8h</filename>
+    <includes id="_serial_type_8h" name="SerialType.h" local="yes" imported="no">SerialType.h</includes>
+    <class kind="class">AsyncSerialPort6</class>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT6_BUFFERS_LENGTH</name>
+      <anchorfile>_async_serial_port6_8h.html</anchorfile>
+      <anchor>a75057e019fdfa0f676dc76a370f1d960</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT6_PREEMP_PRIORITY</name>
+      <anchorfile>_async_serial_port6_8h.html</anchorfile>
+      <anchor>aaa048624ab525dd41922ee9c0937638b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>SERIAL_PORT6_SUBPRIORITY</name>
+      <anchorfile>_async_serial_port6_8h.html</anchorfile>
+      <anchor>a68e80fa59bf4938cfbf178e63ccade4e</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>AsyncSerialPortTestTask.cpp</name>
     <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/test/</path>
-    <filename>_async_serial_port3_test_task_8cpp</filename>
-    <includes id="_async_serial_port3_test_task_8h" name="AsyncSerialPort3TestTask.h" local="yes" imported="no">AsyncSerialPort3TestTask.h</includes>
+    <filename>_async_serial_port_test_task_8cpp</filename>
+    <includes id="_async_serial_port_test_task_8h" name="AsyncSerialPortTestTask.h" local="yes" imported="no">AsyncSerialPortTestTask.h</includes>
     <member kind="function">
       <type>void</type>
       <name>initTestString</name>
-      <anchorfile>_async_serial_port3_test_task_8cpp.html</anchorfile>
+      <anchorfile>_async_serial_port_test_task_8cpp.html</anchorfile>
       <anchor>a693fb713f53ac2da0f2409865a62fb0e</anchor>
       <arglist>(int8_t *testString, uint32_t stringLength)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>initOverloadTestStr</name>
-      <anchorfile>_async_serial_port3_test_task_8cpp.html</anchorfile>
+      <anchorfile>_async_serial_port_test_task_8cpp.html</anchorfile>
       <anchor>a078e3181398fdf2473150a32f931eefb</anchor>
       <arglist>(int8_t *ovldTestStr, uint32_t stringLength)</arglist>
     </member>
   </compound>
   <compound kind="file">
-    <name>AsyncSerialPort3TestTask.h</name>
+    <name>AsyncSerialPortTestTask.h</name>
     <path>/home/julien/Embedded-Dev/STM32-Dev/StdPeriph_Lib/STM32F4xx_StdPeriph_Lib/Source/Libraries/STM32F4xx_FreeRTOS_PeriphDriver/test/</path>
-    <filename>_async_serial_port3_test_task_8h</filename>
+    <filename>_async_serial_port_test_task_8h</filename>
     <includes id="_async_serial_port3_8h" name="AsyncSerialPort3.h" local="yes" imported="no">AsyncSerialPort3.h</includes>
     <includes id="_serial_type_8h" name="SerialType.h" local="yes" imported="no">SerialType.h</includes>
-    <class kind="class">AsyncSerialPort3TestTask</class>
+    <class kind="class">AsyncSerialPortTestTask</class>
   </compound>
   <compound kind="file">
     <name>SerialType.h</name>
@@ -266,42 +370,98 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>AsyncSerialPort1TestTask</name>
-    <filename>class_async_serial_port1_test_task.html</filename>
+    <name>AsyncSerialPort2</name>
+    <filename>class_async_serial_port2.html</filename>
     <member kind="function">
-      <type></type>
-      <name>AsyncSerialPort1TestTask</name>
-      <anchorfile>class_async_serial_port1_test_task.html</anchorfile>
-      <anchor>a50b65f7233f9c027c08ba727859363a8</anchor>
-      <arglist>(const AsyncSerialPort1TestTask &amp;)</arglist>
+      <type>SerialStatus</type>
+      <name>portInit</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aed72463ce5444fe96b9aa2fa0e0385fa</anchor>
+      <arglist>(Parity iParityConf, StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority, uint8_t iSubPriority, InterruptSetting iInterruptSetting)</arglist>
     </member>
     <member kind="function">
-      <type>AsyncSerialPort1TestTask &amp;</type>
-      <name>operator=</name>
-      <anchorfile>class_async_serial_port1_test_task.html</anchorfile>
-      <anchor>a3419158fcaf22b2475497272149977a6</anchor>
-      <arglist>(const AsyncSerialPort1TestTask &amp;)</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>HardwareInit</name>
-      <anchorfile>class_async_serial_port1_test_task.html</anchorfile>
-      <anchor>a9421157263861110214bd7a052a36fc2</anchor>
+      <type>SerialStatus</type>
+      <name>getCurrentStatus</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>a19fb74cc029a466ba2366089cb72d5e5</anchor>
       <arglist>(void)</arglist>
-    </member>
-    <member kind="function">
-      <type>portBASE_TYPE</type>
-      <name>OnCreate</name>
-      <anchorfile>class_async_serial_port1_test_task.html</anchorfile>
-      <anchor>aebb017d9882bf8c62d33aebd9e9b732a</anchor>
-      <arglist>(const portCHAR *const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
-      <name>Run</name>
-      <anchorfile>class_async_serial_port1_test_task.html</anchorfile>
-      <anchor>a745f90191f84021f0a8e0887b2cfa1ff</anchor>
+      <name>setCurrentStatus</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aa52ed7e72b519d6c0503f50c87a23a10</anchor>
+      <arglist>(SerialStatus iStatus)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getOutStream</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aabb7bbd88bf65070166e8009b380ebbb</anchor>
       <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getInStream</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>a4e6e8e7a1569c68acc8c50f835bfc6a4</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getChar</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>a65182e632c085932de618cdd9feba329</anchor>
+      <arglist>(const int8_t *oCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putChar</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>a244ca8c16191b2000ef9af79b2e6e395</anchor>
+      <arglist>(const int8_t iCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putString</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>ae80d6a3f8d6a63e363c88534c90858d5</anchor>
+      <arglist>(const int8_t *const iString, uint32_t *oNbCharSent)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>takeMutex</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aba4f4e9d0f9ab3d5728766731a2fc561</anchor>
+      <arglist>(portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>giveMutex</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>a4f981f34095b67ab96fd95f650c1efc4</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static AsyncSerialPort2 *</type>
+      <name>getInstance</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>af475401d83d3f3fe350e5ca1c2407598</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>closePort</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aa77b15ffbf1309dc7c2dca940f3a8980</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static AsyncSerialPort2 *</type>
+      <name>portHandle</name>
+      <anchorfile>class_async_serial_port2.html</anchorfile>
+      <anchor>aec7d465c7405ffb5e5b6d59ccd2e5254</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -400,41 +560,326 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>AsyncSerialPort3TestTask</name>
-    <filename>class_async_serial_port3_test_task.html</filename>
+    <name>AsyncSerialPort4</name>
+    <filename>class_async_serial_port4.html</filename>
     <member kind="function">
-      <type></type>
-      <name>AsyncSerialPort3TestTask</name>
-      <anchorfile>class_async_serial_port3_test_task.html</anchorfile>
-      <anchor>ad5a27c9c4869c4b59aebea6bb5a7432f</anchor>
-      <arglist>(const AsyncSerialPort3TestTask &amp;)</arglist>
+      <type>SerialStatus</type>
+      <name>portInit</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>afaf3a37f6a40572722eb3e759a26e046</anchor>
+      <arglist>(Parity iParityConf, StopBits iStopBitConf, DataBits iDataLengthConf, LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority, uint8_t iSubPriority, InterruptSetting iInterruptSetting)</arglist>
     </member>
     <member kind="function">
-      <type>AsyncSerialPort3TestTask &amp;</type>
+      <type>SerialStatus</type>
+      <name>getCurrentStatus</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a088523da59ed4738b552e92d85be6d74</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setCurrentStatus</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>af3208a8f6881e404a4259758fe3ec2c1</anchor>
+      <arglist>(SerialStatus iStatus)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getOutStream</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a014366dbcc9950d6be009d38f78eba1f</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getInStream</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a8e39b335f92361678e4cd302727d649d</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getChar</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a3c0e199c7a66c8191c0a3b1efc3179cf</anchor>
+      <arglist>(const int8_t *oCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putChar</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a15f535d338cb5ac8e16d6c6e35ae0ada</anchor>
+      <arglist>(const int8_t iCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putString</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>abbe20368694779aae8f33550e88a0b86</anchor>
+      <arglist>(const int8_t *const iString, uint32_t *oNbCharSent)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>takeMutex</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a99b2ef467e934d40ed50b6681d5a5ff0</anchor>
+      <arglist>(portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>giveMutex</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a5f1ab9f5e9a14895bc0310001402e6e1</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static AsyncSerialPort4 *</type>
+      <name>getInstance</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>ac41553e79298618a5526875a6597cade</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>closePort</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a345a5925cf5ee791418cc46f365d6863</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static AsyncSerialPort4 *</type>
+      <name>portHandle</name>
+      <anchorfile>class_async_serial_port4.html</anchorfile>
+      <anchor>a80b3e6ed5539896aeee02789e3557d61</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>AsyncSerialPort5</name>
+    <filename>class_async_serial_port5.html</filename>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>portInit</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>aefe712b1eda5ebb5825c3aa0d322f883</anchor>
+      <arglist>(Parity iParityConf, StopBits iStopBitConf, DataBits iDataLengthConf, LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority, uint8_t iSubPriority, InterruptSetting iInterruptSetting)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getCurrentStatus</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>aac26496e3c3c894be046bfda0a813649</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setCurrentStatus</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>a01e4c05aff542840f9a4a7a9572c9b2a</anchor>
+      <arglist>(SerialStatus iStatus)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getOutStream</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>aa520227ebb9b9e867b56e6caf83815d0</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getInStream</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>ae7eca4e808c09d709dca7f7be743a3e1</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getChar</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>abd299ccbeb55ce9757f48098c1b25934</anchor>
+      <arglist>(const int8_t *oCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putChar</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>ae03643c81c5eef9e8d039c768770b696</anchor>
+      <arglist>(const int8_t iCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putString</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>a9e25292467858b32a46680d0f014c4d4</anchor>
+      <arglist>(const int8_t *const iString, uint32_t *oNbCharSent)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>takeMutex</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>ae4b8291bf111879eebb4135d6c340abe</anchor>
+      <arglist>(portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>giveMutex</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>ae8ed4a96d581e1a44f5679e82d4e85b1</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static AsyncSerialPort5 *</type>
+      <name>getInstance</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>a99a042c1a1c6c25187b3982743704af1</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>closePort</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>a8f52d8e28bc6a78498c514e0b24abd15</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static AsyncSerialPort5 *</type>
+      <name>portHandle</name>
+      <anchorfile>class_async_serial_port5.html</anchorfile>
+      <anchor>ac20e9027c8c6f920279a0a1a63298416</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>AsyncSerialPort6</name>
+    <filename>class_async_serial_port6.html</filename>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>portInit</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a9224704daccfbe1be014b062384ae323</anchor>
+      <arglist>(Parity iParityConf, StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority, uint8_t iSubPriority, InterruptSetting iInterruptSetting)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getCurrentStatus</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a2b9553a19d49efc790a1860795016ece</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setCurrentStatus</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>ad6b8d9898a6d9e4039a7dc240301e7ac</anchor>
+      <arglist>(SerialStatus iStatus)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getOutStream</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>ace017f7427e1d1fe4ae5a708fc7f472e</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>CQueue &amp;</type>
+      <name>getInStream</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a8d9851571f07e0121faf8c24daa0306a</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>getChar</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a2e86d811097da3fe0afe04c76ca808b3</anchor>
+      <arglist>(const int8_t *oCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putChar</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a7215f5d489b29427139f624f4aec857e</anchor>
+      <arglist>(const int8_t iCharacter, portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>SerialStatus</type>
+      <name>putString</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>af21ae9be53c26ca7318cf12a0631f8f8</anchor>
+      <arglist>(const int8_t *const iString, uint32_t *oNbCharSent)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>takeMutex</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a3b620eddf08d3bfb9ad717af6814f1d7</anchor>
+      <arglist>(portTickType iBlockTime)</arglist>
+    </member>
+    <member kind="function">
+      <type>portBASE_TYPE</type>
+      <name>giveMutex</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a47da9f58686d98165d4c83e2bc9ca486</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static AsyncSerialPort6 *</type>
+      <name>getInstance</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>a5a680b5525cf1a6f5319495fc8054527</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>closePort</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>abc7ad7970649517124d5329b34a7f50e</anchor>
+      <arglist>(void)</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static AsyncSerialPort6 *</type>
+      <name>portHandle</name>
+      <anchorfile>class_async_serial_port6.html</anchorfile>
+      <anchor>af5d96c9631ae5813015612c0a259e90b</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>AsyncSerialPortTestTask</name>
+    <filename>class_async_serial_port_test_task.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>AsyncSerialPortTestTask</name>
+      <anchorfile>class_async_serial_port_test_task.html</anchorfile>
+      <anchor>a4f2af3292fa8dfab4cb9f8e13ec7b21a</anchor>
+      <arglist>(const AsyncSerialPortTestTask &amp;)</arglist>
+    </member>
+    <member kind="function">
+      <type>AsyncSerialPortTestTask &amp;</type>
       <name>operator=</name>
-      <anchorfile>class_async_serial_port3_test_task.html</anchorfile>
-      <anchor>a90cec1a3daee0a841dd9dee55ba22441</anchor>
-      <arglist>(const AsyncSerialPort3TestTask &amp;)</arglist>
+      <anchorfile>class_async_serial_port_test_task.html</anchorfile>
+      <anchor>a90d6d2c239638137c3defacf24401a7b</anchor>
+      <arglist>(const AsyncSerialPortTestTask &amp;)</arglist>
     </member>
     <member kind="function">
       <type>bool</type>
       <name>HardwareInit</name>
-      <anchorfile>class_async_serial_port3_test_task.html</anchorfile>
-      <anchor>a26a123b2e2c48d546e93bb20bfb7aa79</anchor>
+      <anchorfile>class_async_serial_port_test_task.html</anchorfile>
+      <anchor>a790ac37a05e82d7046289dbe94e2bc88</anchor>
       <arglist>(void)</arglist>
     </member>
     <member kind="function">
       <type>portBASE_TYPE</type>
       <name>OnCreate</name>
-      <anchorfile>class_async_serial_port3_test_task.html</anchorfile>
-      <anchor>a0400b5dc425e190ee49c91c9c14e5a93</anchor>
+      <anchorfile>class_async_serial_port_test_task.html</anchorfile>
+      <anchor>acd9356ee55d54339bfdefd7dfbb60b8b</anchor>
       <arglist>(const portCHAR *const pcName, unsigned portSHORT usStackDepth, unsigned portBASE_TYPE uxPriority)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>Run</name>
-      <anchorfile>class_async_serial_port3_test_task.html</anchorfile>
-      <anchor>a0b4585ddbe0b19b6b2cc844cd672e72c</anchor>
+      <anchorfile>class_async_serial_port_test_task.html</anchorfile>
+      <anchor>ad381b04655ae34230d3ccbfa27a6ade5</anchor>
       <arglist>(void)</arglist>
     </member>
   </compound>

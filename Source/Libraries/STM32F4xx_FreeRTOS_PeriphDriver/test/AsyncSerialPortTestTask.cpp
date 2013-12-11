@@ -126,7 +126,8 @@ void AsyncSerialPortTestTask::Run(void)
 			 * the Tx an Rx buffer of the port tested so the Txbuffer will be
 			 * bigger than the Rx one.
 			 */
-			currentStatus = portInstance->putString(testTxString, &nbCharSent);
+			currentStatus = portInstance->putString(overloadTestStr,
+					&nbCharSent);
 			Delay(100 / portTICK_RATE_MS);
 			i = 0;
 			while ((currentStatus = portInstance->getChar(&character, 10)) ==

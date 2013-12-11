@@ -1,6 +1,6 @@
 /**
  * \file AsyncSerialPortTestTask.h
- * \class AsyncSerialPort1TestTask
+ * \class AsyncSerialPortTestTask
  * \brief This managed task is used to test the asynchronous serial ports.
  * 		  Modify and use this task to test the uarts.
  *

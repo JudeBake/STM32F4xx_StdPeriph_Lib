@@ -1,7 +1,7 @@
 /**
- * \file AsyncSerialPort3.cpp
+ * \file AsyncSerialPort2.cpp
  *
- * \date Created on: Dec 7, 2013
+ * \date Created on: Dec 9, 2013
  * \date Last change on: &DATE&
  *
  * \author Created by: julien 
@@ -11,7 +11,7 @@
  */
 
 #include "SerialPortConf.h"
-#ifdef ASYNC_SERIAL_PORT3
+#ifdef ASYNC_SERIAL_PORT2
 
 //FreeRTOS includes
 #include "CFreeRTOS.h"
@@ -21,7 +21,7 @@
 #include "misc.h"
 
 //Class include
-#include "AsyncSerialPort3.h"
+#include "AsyncSerialPort2.h"
 #include "stm32f4xx_USARTPinAss.h"
 
 //Constants definition
@@ -30,7 +30,7 @@
 /*
  * Initializing the port handle
  */
-AsyncSerialPort3* AsyncSerialPort3::portHandle = NULL;
+AsyncSerialPort2* AsyncSerialPort2::portHandle = NULL;
 
 /*
  * Interrupt handler
@@ -39,7 +39,7 @@ AsyncSerialPort3* AsyncSerialPort3::portHandle = NULL;
 extern "C"
 {
 #endif
-void USART3_IRQHandler(void);
+void USART2_IRQHandler(void);
 #ifdef __cplusplus
 }
 #endif
@@ -47,23 +47,23 @@ void USART3_IRQHandler(void);
 /*
  * Private functions
  */
-void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
+void initPort2(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRate,
 		uint8_t iPreempPriority, uint8_t iSubPriority,
 		InterruptSetting iInterruptSetting);
-void setParityPort3(USART_InitTypeDef& iUsartInitStruct, Parity iParity);
-void setStopBitPort3(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit);
-void setWordlengthPort3(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength);
-void setLinkModePort3(GPIO_InitTypeDef& iGpioInitStruct,
+void setParityPort2(USART_InitTypeDef& iUsartInitStruct, Parity iParity);
+void setStopBitPort2(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit);
+void setWordlengthPort2(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength);
+void setLinkModePort2(GPIO_InitTypeDef& iGpioInitStruct,
 		USART_InitTypeDef& iUsartInitStruct, LinkMode iLinkMode);
-void setHwFlowCtrlPort3(GPIO_InitTypeDef& iGpioInitStruct,
+void setHwFlowCtrlPort2(GPIO_InitTypeDef& iGpioInitStruct,
 		USART_InitTypeDef& iUsartInitStruct, HwFlowCtrl iHwFlowCtrl);
-void setNvicPort3(uint8_t iPreempPriority, uint8_t iSubPriority);
+void setNvicPort2(uint8_t iPreempPriority, uint8_t iSubPriority);
 
 /*
  * Constructors
  */
-AsyncSerialPort3::AsyncSerialPort3(void)
+AsyncSerialPort2::AsyncSerialPort2(void)
 {
 	currentStatus = SERIAL_INIT_ERROR;
 	parity = SERIAL_NO_PARITY;
@@ -72,17 +72,17 @@ AsyncSerialPort3::AsyncSerialPort3(void)
 	hwFlowCtrl = SERIAL_NO_HW_FLOW_CTRL;
 	linkMode = SERIAL_FULL_DUPLEX;
 	baudRate = SERIAL_19200_BAUD;
-	preempPriority = SERIAL_PORT3_PREEMP_PRIORITY;
-	subPriority = SERIAL_PORT3_SUBPRIORITY;
+	preempPriority = SERIAL_PORT2_PREEMP_PRIORITY;
+	subPriority = SERIAL_PORT2_SUBPRIORITY;
 	interruptSetting = SERIAL_INT_DISABLE;
 
-	dataStreamIn.Create(SERIAL_PORT3_BUFFERS_LENGTH, sizeof(uint8_t));
-	dataStreamOut.Create(SERIAL_PORT3_BUFFERS_LENGTH, sizeof(uint8_t));
+	dataStreamIn.Create(SERIAL_PORT2_BUFFERS_LENGTH, sizeof(uint8_t));
+	dataStreamOut.Create(SERIAL_PORT2_BUFFERS_LENGTH, sizeof(uint8_t));
 
 	portMutex.Create();
 }
 
-AsyncSerialPort3::AsyncSerialPort3(const AsyncSerialPort3&)
+AsyncSerialPort2::AsyncSerialPort2(const AsyncSerialPort2&)
 {
 	//just to shut down warning
 	currentStatus = SERIAL_INIT_ERROR;
@@ -92,12 +92,12 @@ AsyncSerialPort3::AsyncSerialPort3(const AsyncSerialPort3&)
 	hwFlowCtrl = SERIAL_NO_HW_FLOW_CTRL;
 	linkMode = SERIAL_FULL_DUPLEX;
 	baudRate = SERIAL_19200_BAUD;
-	preempPriority = SERIAL_PORT3_PREEMP_PRIORITY;
-	subPriority = SERIAL_PORT3_SUBPRIORITY;
+	preempPriority = SERIAL_PORT2_PREEMP_PRIORITY;
+	subPriority = SERIAL_PORT2_SUBPRIORITY;
 	interruptSetting = SERIAL_INT_DISABLE;
 }
 
-void AsyncSerialPort3::operator=(const AsyncSerialPort3&)
+void AsyncSerialPort2::operator=(const AsyncSerialPort2&)
 {
 
 }
@@ -105,20 +105,20 @@ void AsyncSerialPort3::operator=(const AsyncSerialPort3&)
 /*
  * Instance getter
  */
-AsyncSerialPort3 *AsyncSerialPort3::getInstance(void)
+AsyncSerialPort2 *AsyncSerialPort2::getInstance(void)
 {
-	if (AsyncSerialPort3::portHandle == NULL)
+	if (AsyncSerialPort2::portHandle == NULL)
 	{
-		AsyncSerialPort3::portHandle = new AsyncSerialPort3;
+		AsyncSerialPort2::portHandle = new AsyncSerialPort2;
 	}
 
-	return AsyncSerialPort3::portHandle;
+	return AsyncSerialPort2::portHandle;
 }
 
 /*
  * Serial port initializer
  */
-SerialStatus AsyncSerialPort3::portInit(Parity iParityConf,
+SerialStatus AsyncSerialPort2::portInit(Parity iParityConf,
 		StopBits iStopBitConf, DataBits iDataLengthConf, HwFlowCtrl iHwFlowCtrl,
 		LinkMode iLinkMode, BaudRate iBaudRateConf, uint8_t iPreempPriority,
 		uint8_t iSubPriority, InterruptSetting iInterruptSetting)
@@ -138,7 +138,7 @@ SerialStatus AsyncSerialPort3::portInit(Parity iParityConf,
 	if ((dataStreamIn.IsValid()) && (dataStreamOut.IsValid()) &&
 			(portMutex.IsValid()))
 	{
-		initPort3(parity, stopBits, dataBits, hwFlowCtrl, linkMode, baudRate,
+		initPort2(parity, stopBits, dataBits, hwFlowCtrl, linkMode, baudRate,
 				preempPriority, subPriority, interruptSetting);
 	}
 
@@ -152,7 +152,7 @@ SerialStatus AsyncSerialPort3::portInit(Parity iParityConf,
 /*
  * Current status getter
  */
-SerialStatus AsyncSerialPort3::getCurrentStatus(void)
+SerialStatus AsyncSerialPort2::getCurrentStatus(void)
 {
 	return currentStatus;
 }
@@ -160,7 +160,7 @@ SerialStatus AsyncSerialPort3::getCurrentStatus(void)
 /* Current status setter
  * ***USED ONLY IN INTERRUPT HANDLER***
  */
-void AsyncSerialPort3::setCurrentStatus(SerialStatus iStatus)
+void AsyncSerialPort2::setCurrentStatus(SerialStatus iStatus)
 {
 	currentStatus = iStatus;
 }
@@ -169,12 +169,12 @@ void AsyncSerialPort3::setCurrentStatus(SerialStatus iStatus)
  * Stream getters
  * ***USED ONLY IN INTERRUPT HANDLER***
  */
-CQueue& AsyncSerialPort3::getOutStream(void)
+CQueue& AsyncSerialPort2::getOutStream(void)
 {
 	return dataStreamOut;
 }
 
-CQueue& AsyncSerialPort3::getInStream(void)
+CQueue& AsyncSerialPort2::getInStream(void)
 {
 	return dataStreamIn;
 }
@@ -182,7 +182,7 @@ CQueue& AsyncSerialPort3::getInStream(void)
 /*
  * Port reading method
  */
-SerialStatus AsyncSerialPort3::getChar(const int8_t* oCharacter,
+SerialStatus AsyncSerialPort2::getChar(const int8_t* oCharacter,
 		portTickType iBlockTime)
 {
 	SerialStatus oReturn = currentStatus;
@@ -201,14 +201,14 @@ SerialStatus AsyncSerialPort3::getChar(const int8_t* oCharacter,
 /*
  * Port writing methods
  */
-SerialStatus AsyncSerialPort3::putChar(const int8_t iCharacter,
+SerialStatus AsyncSerialPort2::putChar(const int8_t iCharacter,
 		portTickType iBlockTime)
 {
 	if (currentStatus == SERIAL_OK)
 	{
 		if (dataStreamOut.Send((void*)&iCharacter, iBlockTime))
 		{
-			USART_ITConfig(USART3, USART_IT_TXE, ENABLE);
+			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
 		}
 
 		else
@@ -220,7 +220,7 @@ SerialStatus AsyncSerialPort3::putChar(const int8_t iCharacter,
 	return currentStatus;
 }
 
-SerialStatus AsyncSerialPort3::putString(const int8_t* const iString,
+SerialStatus AsyncSerialPort2::putString(const int8_t* const iString,
 		uint32_t* oNbCharSent)
 {
 	int8_t* nextChar = (int8_t*)iString;
@@ -245,28 +245,28 @@ SerialStatus AsyncSerialPort3::putString(const int8_t* const iString,
 /*
  * Mutex method
  */
-portBASE_TYPE AsyncSerialPort3::takeMutex(portTickType iBlockTime)
+portBASE_TYPE AsyncSerialPort2::takeMutex(portTickType iBlockTime)
 {
 	return portMutex.Take(iBlockTime);
 }
 
-portBASE_TYPE AsyncSerialPort3::giveMutex(void)
+portBASE_TYPE AsyncSerialPort2::giveMutex(void)
 {
 	return portMutex.Give();
 }
 /*
  * Closing port method
  */
-void AsyncSerialPort3::closePort(void)
+void AsyncSerialPort2::closePort(void)
 {
-	delete AsyncSerialPort3::portHandle;
-	AsyncSerialPort3::portHandle = NULL;
+	delete AsyncSerialPort2::portHandle;
+	AsyncSerialPort2::portHandle = NULL;
 }
 
 /*
  * Private functions
  */
-void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
+void initPort2(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 		HwFlowCtrl iHwFlowCtrl, LinkMode iLinkMode, BaudRate iBaudRate,
 		uint8_t iPreempPriority, uint8_t iSubPriority,
 		InterruptSetting iInterruptSetting)
@@ -276,8 +276,8 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	GPIO_InitTypeDef gpioInitStruct;
 
 	//enable USART clock
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
 	//init the gpio init struct with common values
 	gpioInitStruct.GPIO_Pin = 0;
@@ -287,19 +287,19 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	gpioInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
 
 	//set up the link mode
-	setLinkModePort3(gpioInitStruct, usartInitStruct, iLinkMode);
+	setLinkModePort2(gpioInitStruct, usartInitStruct, iLinkMode);
 
 	//set up the hardware flow control
-	setHwFlowCtrlPort3(gpioInitStruct, usartInitStruct, iHwFlowCtrl);
+	setHwFlowCtrlPort2(gpioInitStruct, usartInitStruct, iHwFlowCtrl);
 
 	//set up the parity
-	setParityPort3(usartInitStruct, iParity);
+	setParityPort2(usartInitStruct, iParity);
 
 	//set up thestop bit config
-	setStopBitPort3(usartInitStruct, iStopBit);
+	setStopBitPort2(usartInitStruct, iStopBit);
 
 	//set up the word length
-	setWordlengthPort3(usartInitStruct, iDataLength);
+	setWordlengthPort2(usartInitStruct, iDataLength);
 
 	//set the baud rate
 	usartInitStruct.USART_BaudRate = iBaudRate;
@@ -311,32 +311,32 @@ void initPort3(Parity iParity, StopBits iStopBit, DataBits iDataLength,
 	usartClockInitStruct.USART_LastBit = USART_LastBit_Disable;
 
 	//init the gpio and the usart
-	GPIO_Init(USART3_GPIO_PORT, &gpioInitStruct);
-	USART_Init(USART3, &usartInitStruct);
-	USART_ClockInit(USART3, &usartClockInitStruct);
+	GPIO_Init(USART2_GPIO_PORT, &gpioInitStruct);
+	USART_Init(USART2, &usartInitStruct);
+	USART_ClockInit(USART2, &usartClockInitStruct);
 
 	//set the interrupt if enabled
 	if (iInterruptSetting == SERIAL_INT_ENABLE)
 	{
-		setNvicPort3(iPreempPriority, iSubPriority);
-		USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+		setNvicPort2(iPreempPriority, iSubPriority);
+		USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 
 		if ((iParity == SERIAL_ODD_PARITY) || (iParity == SERIAL_EVEN_PARITY))
 		{
-			USART_ITConfig(USART3, USART_IT_PE, ENABLE);
+			USART_ITConfig(USART2, USART_IT_PE, ENABLE);
 		}
 
 		if (iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_CTS ||
 				iHwFlowCtrl == SERIAL_HW_FLOW_CTRL_RTS_CTS)
 		{
-			USART_ITConfig(USART3, USART_IT_CTS, ENABLE);
+			USART_ITConfig(USART2, USART_IT_CTS, ENABLE);
 		}
 
-		USART_Cmd(USART3, ENABLE);
+		USART_Cmd(USART2, ENABLE);
 	}
 }
 
-void setParityPort3(USART_InitTypeDef& iUsartInitStruct, Parity iParity)
+void setParityPort2(USART_InitTypeDef& iUsartInitStruct, Parity iParity)
 {
 	switch (iParity)
 	{
@@ -352,7 +352,7 @@ void setParityPort3(USART_InitTypeDef& iUsartInitStruct, Parity iParity)
 	}
 }
 
-void setStopBitPort3(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit)
+void setStopBitPort2(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit)
 {
 	switch (iStopBit)
 	{
@@ -365,7 +365,7 @@ void setStopBitPort3(USART_InitTypeDef& iUsartInitStruct, StopBits iStopBit)
 	}
 }
 
-void setWordlengthPort3(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength)
+void setWordlengthPort2(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLength)
 {
 	switch (iWordLength)
 	{
@@ -378,25 +378,25 @@ void setWordlengthPort3(USART_InitTypeDef& iUsartInitStruct, DataBits iWordLengt
 	}
 }
 
-void setLinkModePort3(GPIO_InitTypeDef& iGpioInitStruct,
+void setLinkModePort2(GPIO_InitTypeDef& iGpioInitStruct,
 		USART_InitTypeDef& iUsartInitStruct, LinkMode iLinkMode)
 {
 	switch (iLinkMode)
 	{
 	case SERIAL_SIMPLEX_RX:
-		iGpioInitStruct.GPIO_Pin |= USART3_RX;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_RX;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RX_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx;
 		break;
 	case SERIAL_SIMPLEX_TX:
-		iGpioInitStruct.GPIO_Pin |= USART3_TX;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_TX_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_TX;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_TX_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_Mode = USART_Mode_Tx;
 		break;
 	case SERIAL_FULL_DUPLEX:
-		iGpioInitStruct.GPIO_Pin |= USART3_RX | USART3_TX;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RX_SOURCE, GPIO_AF_USART3);
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_TX_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_RX | USART2_TX;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RX_SOURCE, GPIO_AF_USART2);
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_TX_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 		break;
 	case SERIAL_HALF_DUPLEX:
@@ -405,7 +405,7 @@ void setLinkModePort3(GPIO_InitTypeDef& iGpioInitStruct,
 	}
 }
 
-void setHwFlowCtrlPort3(GPIO_InitTypeDef& iGpioInitStruct,
+void setHwFlowCtrlPort2(GPIO_InitTypeDef& iGpioInitStruct,
 		USART_InitTypeDef& iUsartInitStruct, HwFlowCtrl iHwFlowCtrl)
 {
 	switch (iHwFlowCtrl)
@@ -415,32 +415,32 @@ void setHwFlowCtrlPort3(GPIO_InitTypeDef& iGpioInitStruct,
 				USART_HardwareFlowControl_None;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS:
-		iGpioInitStruct.GPIO_Pin |= USART3_RTS;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_RTS;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RTS_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_CTS:
-		iGpioInitStruct.GPIO_Pin |= USART3_CTS;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_CTS;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_CTS_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_CTS;
 		break;
 	case SERIAL_HW_FLOW_CTRL_RTS_CTS:
-		iGpioInitStruct.GPIO_Pin |= USART3_RTS | USART3_CTS;
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_RTS_SOURCE, GPIO_AF_USART3);
-		GPIO_PinAFConfig(USART3_GPIO_PORT, USART3_CTS_SOURCE, GPIO_AF_USART3);
+		iGpioInitStruct.GPIO_Pin |= USART2_RTS | USART2_CTS;
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_RTS_SOURCE, GPIO_AF_USART2);
+		GPIO_PinAFConfig(USART2_GPIO_PORT, USART2_CTS_SOURCE, GPIO_AF_USART2);
 		iUsartInitStruct.USART_HardwareFlowControl =
 				USART_HardwareFlowControl_RTS_CTS;
 		break;
 	}
 }
 
-void setNvicPort3(uint8_t iPreempPriority, uint8_t iSubPriority)
+void setNvicPort2(uint8_t iPreempPriority, uint8_t iSubPriority)
 {
 	NVIC_InitTypeDef nvicInitStruct;
 
-	nvicInitStruct.NVIC_IRQChannel = USART3_IRQn;
+	nvicInitStruct.NVIC_IRQChannel = USART2_IRQn;
 	nvicInitStruct.NVIC_IRQChannelPreemptionPriority = iPreempPriority;
 	nvicInitStruct.NVIC_IRQChannelSubPriority = iSubPriority;
 	nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
@@ -451,16 +451,16 @@ void setNvicPort3(uint8_t iPreempPriority, uint8_t iSubPriority)
 /*
  * Interrupt handler
  */
-void USART3_IRQHandler(void)
+void USART2_IRQHandler(void)
 {
-	static AsyncSerialPort3* portHandle = AsyncSerialPort3::getInstance();
+	static AsyncSerialPort2* portHandle = AsyncSerialPort2::getInstance();
 	static CQueue outStream = portHandle->getOutStream();
 	static CQueue inStream = portHandle->getInStream();
 
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	portCHAR cChar;
 
-	if (USART_GetITStatus(USART3, USART_IT_TXE) == SET)
+	if (USART_GetITStatus(USART2, USART_IT_TXE) == SET)
 	{
 		/* The interrupt was caused by the THR becoming empty.  Are there any
 			more characters to transmit? */
@@ -468,7 +468,7 @@ void USART3_IRQHandler(void)
 		{
 			/* A character was retrieved from the queue so can be sent to the
 				THR now. */
-			USART_SendData(USART3, cChar);
+			USART_SendData(USART2, cChar);
 
 			if (portHandle->getCurrentStatus() == SERIAL_TX_BUFFER_FULL)
 			{
@@ -477,13 +477,13 @@ void USART3_IRQHandler(void)
 		}
 		else
 		{
-			USART_ITConfig(USART3, USART_IT_TXE, DISABLE);
+			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
 		}
 	}
 
-	if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET)
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)
 	{
-		cChar = USART_ReceiveData(USART3);
+		cChar = USART_ReceiveData(USART2);
 
 		if (!inStream.SendFromISR(&cChar, &xHigherPriorityTaskWoken))
 		{
@@ -491,19 +491,19 @@ void USART3_IRQHandler(void)
 		}
 	}
 
-	if (USART_GetITStatus(USART3, USART_IT_PE) == SET)
+	if (USART_GetITStatus(USART2, USART_IT_PE) == SET)
 	{
 		portHandle->setCurrentStatus(SERIAL_PARITY_ERROR);
 	}
 
-	if (USART_GetITStatus(USART3, USART_IT_ORE_RX) == SET)
+	if (USART_GetITStatus(USART2, USART_IT_ORE_RX) == SET)
 	{
 		portHandle->setCurrentStatus(SERIAL_OVERRUN_ERROR);
 	}
 
-	if (USART_GetITStatus(USART3, USART_IT_CTS) == SET)
+	if (USART_GetITStatus(USART2, USART_IT_CTS) == SET)
 	{
-		if (GPIO_ReadInputDataBit(USART3_GPIO_PORT, USART3_CTS))
+		if (GPIO_ReadInputDataBit(USART2_GPIO_PORT, USART2_CTS))
 		{
 			portHandle->setCurrentStatus(SERIAL_BUSY);
 		}
@@ -517,4 +517,3 @@ void USART3_IRQHandler(void)
 }
 
 #endif
-

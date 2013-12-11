@@ -484,7 +484,10 @@ void USART1_IRQHandler(void)
 	{
 		cChar = USART_ReceiveData(USART1);
 
-		inStream.SendFromISR(&cChar, &xHigherPriorityTaskWoken);
+		if (!inStream.SendFromISR(&cChar, &xHigherPriorityTaskWoken))
+		{
+			portInstance->setCurrentStatus(SERIAL_OVERRUN_ERROR);
+		}
 	}
 
 	if (USART_GetITStatus(USART1, USART_IT_PE) == SET)
